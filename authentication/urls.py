@@ -9,4 +9,5 @@ urlpatterns = [
     path('addCand', views.addCand, name='addCand'),
     path('jobs', views.jobs, name='jobs'),
     path('application', views.application, name='application'),
+    path('apply', views.apply, name='apply'),
 ]

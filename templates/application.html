@@ -21,11 +21,11 @@
                     <h1>Application Form</h1>
                 </div>
                 <div class="elform">
-                    <form action="#" id="application-form">
+                    <form action="/apply" method="POST" id="application-form">
                         <div class="form-group">
                             <label for="first-name">Name:</label>
                             <div class="twin-inputs">
-                                <input class="twin-inputs-first" type="text" id="first-name" name="first-name"
+                                <input class="twin-inputs-first" type="text" id="fname" name="first-name"
                                     placeholder="First Name" required>
                                 <input type="text" id="last-name" name="last-name" placeholder="Last Name" required>
                             </div>
@@ -56,16 +56,16 @@
                             <label>Military Status:</label>
                             <div class="radios">
                                 <div class="radio-square">
-                                    <label for="completed"><input id="completed" type="radio" name="military-status" />
+                                    <label for="completed"><input id="completed" type="radio" name="military_status" />
                                         Completed</label>
                                 </div>
                                 <div class="radio-square">
                                     <label for="not-completed"><input id="not-completed" type="radio"
-                                            name="military-status" />
+                                            name="military_status" />
                                         Not Completed</label>
                                 </div>
                                 <div class="radio-square">
-                                    <label for="exempted"><input id="exempted" type="radio" name="military-status" />
+                                    <label for="exempted"><input id="exempted" type="radio" name="military_status" />
                                         Exempted</label>
                                 </div>
                             </div>
