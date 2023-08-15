@@ -39,7 +39,6 @@ class cands(models.Model):
     CandID = models.AutoField(primary_key=True)
     cv = models.FileField()
     fname = models.CharField(max_length=30)
-    age = models.IntegerField()
     phone = models.IntegerField()
     dob= models.DateField()
     address = models.CharField(max_length=255)
