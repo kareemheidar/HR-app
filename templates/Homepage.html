@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madkour Homepage</title>
+    <link rel="StyleSheet" type="text/css" href="{% static 'HomePage.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <ul class="logo">
+            <li><image src="{% static 'logo1.png' %}"></image></li>
+            <li id="login-btn"><a href="/login">Login</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <p> your way to excellence - Madkour Group</p>
+        <h1 style="font-weight: 500;">Madkour Group</h1>
+        <button class="Jobs" type="button"><a href="/jobs">Explore Jobs</a></button>
+        <button class="Jobs" type="button"><a href="/addCand">About Us</a></button>
+    </div>
+
+</body>
+
+<!--script type="text/javascript">
+    document.getElementById("login-btn").onclick = function () {
+        location.href = "Login.html";
+    };
+</script-->
+
+</html>

@@ -1,0 +1,176 @@
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Openings</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'jobs.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Job Openings</h1>
+        <div class="group">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <g>
+                    <path
+                        d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                    </path>
+                </g>
+            </svg>
+            <input placeholder="Search" type="text" class="input" id="searchbar">
+        </div>
+        <div id="jobdiv"></div>
+
+    </div>
+
+    <script>
+        var jobOpenings = [
+            {
+                id: 1,
+                title: "Chief Accountant",
+                category: "Office & Administration",
+                company: "Madkour"
+            },
+            {
+                id: 2,
+                title: "Senior PHP Developer",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 3,
+                title: "International Business Development Specialist",
+                category: "Sales & Marketing",
+                company: "Madkour"
+            },
+            {
+                id: 4,
+                title: "Senior Front End Developer (ReactJS)",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 5,
+                title: "Full Stack Team Leader (ReactJS & NodeJS)",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 6,
+                title: "Senior Full Stack (ReactJS & NodeJS)",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 7,
+                title: "Senior Software Quality Control Engineer",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 8,
+                title: "Senior Software Developer C++ - (Computer Vision)",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 9,
+                title: "Software Team Leader - .Net Core & Angular",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 10,
+                title: "Senior Full Stack Developer - (.Net Core & Angular)",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 11,
+                title: "Senior NodeJS Developer",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 12,
+                title: "Senior Full-Stack Java Developer (Java+ Angular)",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 13,
+                title: "Senior Java Developer",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 14,
+                title: "Java Team Leader",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 15,
+                title: "Senior Full Stack Developer - (.Net Core & ReactJS)",
+                category: "Software Developers",
+                company: "Madkour"
+            },
+            {
+                id: 16,
+                title: "Senior Lead Generation Specialist",
+                category: "Sales & Marketing",
+                company: "Madkour"
+            },
+        ];
+
+        $('#searchbar').on('keyup', function () {
+            var value = $(this).val();
+            console.log(value);
+            var data = searchData(value, jobOpenings);
+            showData(data);
+        });
+        showData(jobOpenings);
+
+        function searchData(value, data) {
+            var filteredData = [];
+            for (var i = 0; i < data.length; i++) {
+                value = value.toLowerCase();
+                var name = data[i].title.toLowerCase();
+                if (name.includes(value)) {
+                    filteredData.push(data[i]);
+                }
+            }
+            return filteredData;
+        }
+
+        function showData(data) {
+            var jobdiv = document.getElementById('jobdiv');
+            jobdiv.innerHTML = '';
+            data.forEach(job => {
+                var jobElement = document.createElement('div');
+                jobElement.style.cursor = 'pointer';
+
+                jobElement.innerHTML = `
+            <h2>${job.title}</h2>
+            <p>${job.category} <span style="font-weight: 800; font-size: 18px;"> · </span> ${job.company}</p>
+            <hr/>
+        `;
+
+                jobElement.addEventListener('click', function () {
+                    window.location.href = `application?id=${job.id}`;
+                });
+
+                jobdiv.appendChild(jobElement);
+            });
+        }
+
+    </script>
+</body>
+
+</html>

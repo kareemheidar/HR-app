@@ -1,0 +1,115 @@
+nav {
+    background-color: #006FBA;
+
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  nav ul li {
+    float: left;
+  }
+  
+  nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  nav ul li a:hover {
+    background-color: #111;
+  }
+  
+  nav ul li.login-button {
+    float: right;
+  }
+  
+  @media screen and (max-width: 600px) {
+    nav ul li.login-button {
+      float: none;
+    }
+  }
+
+body{
+    background-image: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url(https://images.pexels.com/photos/7648001/pexels-photo-7648001.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+   background-size:cover;
+   background-position: auto;
+   padding: 0;
+   margin: 0;
+   font-family: 'Nunito', sans-serif;
+  }
+#login-btn{
+    padding: 10px;
+   float: right;
+}
+#login-btn a{
+    text-decoration: none;
+    color: white;
+    font-size: larger;
+}
+#login-btn a:hover{
+    color: #006FBA;
+    background-color: white;
+}
+nav ul li img{
+    float: left;
+    padding: 10px;
+}
+#main{
+ text-align:center;
+ color: white;
+ font-size: larger;
+ font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+ padding-top: 0px;
+}
+
+.Jobs{
+  background-color:#006FBA ;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  padding-left: 40px;
+  padding-right: 40px;
+  border-color:#006FBA ;
+  display: inline;
+}
+
+#quote{
+  text-align: center;
+  color: white;
+}
+.content{
+  text-align: center;
+  color: white;
+  padding-top: 200px;
+}
+ 
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+a:active {
+  color: white;
+  text-decoration: none;
+}
+
+a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
