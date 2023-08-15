@@ -11,7 +11,7 @@ class candAccount(models.Model):
 
 
 
-class candidate(models.Model):
+class cands(models.Model):
     STATUS_CHOICES = [
         ('reviewed', 'Reviewed'),
         ('rejected', 'Rejected'),
@@ -38,7 +38,7 @@ class candidate(models.Model):
     
     CandID = models.AutoField(primary_key=True)
     cv = models.FileField()
-    name = models.CharField(max_length=30)
+    fname = models.CharField(max_length=30)
     age = models.IntegerField()
     phone = models.IntegerField()
     dob= models.DateField()
@@ -59,4 +59,4 @@ class candidate(models.Model):
         return self.name 
     
     class Meta:
-        db_table = 'candidate'
+        db_table = 'cands'

@@ -1,5 +1,5 @@
 from django import forms
-from .models import candAccount, candidate
+from .models import candAccount, cands
 
 class candAccountForm(forms.ModelForm):
     class Meta:
@@ -8,5 +8,5 @@ class candAccountForm(forms.ModelForm):
         
 class candidate(forms.ModelForm):
     class Meta:
-        model = candidate
-        fields = ('cv','fname','address','military-status','phone','dob')
+        model = cands
+        fields = ('cv','fname','address','military_status','phone','dob')
