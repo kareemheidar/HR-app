@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
-from .models import candAccount, cands
-from .forms import candAccount,candidate
+from .models import candidate_account, candidate
 from django.contrib import messages
 from django.db.models import QuerySet
 
@@ -32,33 +31,25 @@ def addCand(request):
         candID = request.POST['candID']
         username = request.POST['username']
         password = request.POST['password']
-        candAcc = candAccount(candID = candID, username = username, password = password)
+        candAcc = candidate_account(candID = candID, username = username, password = password)
         candAcc.save()
         return render(request, 'Homepage.html')
     
 
-def signup(request):
-    
-    if request.method == "POST":
-        form = candAccount(request.POST)
-        if form.is_valid():
-            form.save()
-            messages
-    else:
-        form = candAccount()
-
-    return render(request, 'Admin.html', {'form': form})
- 
 
 def apply(request):
     if request.method == "POST":
         vfname = request.POST['fname']
+        vlname = request.POST['lname']
         vaddress = request.POST['address']
         vmilitary_status = request.POST['military_status']
         vphone = request.POST['phone']
         vdob = request.POST['dob']
         vcv = request.FILES.get('cv')
-        cands.objects.create(cv=vcv, fname=vfname, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status)
+        vjobid = request.POST['jobID']
+        print(vjobid)
+        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjobid, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status)
+        cand.save()
         return render(request, 'Homepage.html')
 
 

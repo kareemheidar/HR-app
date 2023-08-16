@@ -1,12 +1,12 @@
 from django import forms
-from .models import candAccount, cands
+from .models import candidate_account, candidate
 
 class candAccountForm(forms.ModelForm):
     class Meta:
-        model = candAccount
+        model = candidate_account
         fields = ('candID', 'username', 'password')
         
 class candidate(forms.ModelForm):
     class Meta:
-        model = cands
-        fields = ('cv','fname','address','military_status','phone','dob')
+        model = candidate
+        fields = ('fname', 'lname', 'email', 'phone', 'address', 'gender', 'military_status', 'cand_status', 'dob', 'cv', 'jobID')

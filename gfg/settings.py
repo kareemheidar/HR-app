@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'gfg.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'madkour',
+        'NAME': 'madbase',
         'USER': 'root',
         'PASSWORD': 'DB@Madkour@123',
         'HOST': 'localhost',

@@ -23,12 +23,13 @@
                 <div class="elform">
                     <form action="/apply" method="POST" id="application-form" enctype="multipart/form-data">
                         {% csrf_token %}
+                        <input type="hidden" name="jobID" value="{{ jobId }}">
                         <div class="form-group">
                             <label for="first-name">Name:</label>
                             <div class="twin-inputs">
                                 <input class="twin-inputs-first" type="text" id="fname" name="fname"
                                     placeholder="First Name" required>
-                                <input type="text" id="last-name" name="last-name" placeholder="Last Name" required>
+                                <input type="text" id="lname" name="lname" placeholder="Last Name" required>
                             </div>
                         </div>
 
@@ -229,13 +230,13 @@
         }
 
         const radioSquares = document.querySelectorAll('.radio-square');
-    
-    radioSquares.forEach(square => {
-        square.addEventListener('click', () => {
-            const radioButton = square.querySelector('input[type="radio"]');
-            radioButton.checked = true;
+
+        radioSquares.forEach(square => {
+            square.addEventListener('click', () => {
+                const radioButton = square.querySelector('input[type="radio"]');
+                radioButton.checked = true;
+            });
         });
-    });
     </script>
 </body>
 
