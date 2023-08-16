@@ -1,0 +1,44 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Compiled Python Files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE and Editor Files
+.vscode/
+.idea/
+.pycharm/
+.vs/
+*.sublime-project
+*.sublime-workspace
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Log Files
+*.log
+
+# Configuration Files
+settings_local.py
+config.ini
+
+# Database Files
+db.sqlite3
+
+# Media and Static Files
+media/
+static/
+
+# Compiled JavaScript and CSS Files
+*.js
+*.css
+
+# Deployment Files
+Procfile
+runtime.txt
