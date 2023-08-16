@@ -37,7 +37,7 @@ class cands(models.Model):
     )
     
     CandID = models.AutoField(primary_key=True)
-    cv = models.FileField()
+    cv = models.FileField(upload_to='cvs/')
     fname = models.CharField(max_length=30)
     phone = models.IntegerField()
     dob= models.DateField()
@@ -53,9 +53,6 @@ class cands(models.Model):
         default='male'
     )
    # JobID = models.ForeignKey('Job', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name 
     
     class Meta:
         db_table = 'cands'

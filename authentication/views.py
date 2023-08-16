@@ -57,10 +57,8 @@ def apply(request):
         vmilitary_status = request.POST['military_status']
         vphone = request.POST['phone']
         vdob = request.POST['dob']
-        vcv = request.POST['cv']
-        print(vfname)
-        cand = cands(fname = vfname, address = vaddress, military_status = vmilitary_status, phone = vphone, dob = vdob, cv = vcv)
-        cand.save()
+        vcv = request.FILES.get('cv')
+        cands.objects.create(cv=vcv, fname=vfname, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status)
         return render(request, 'Homepage.html')
 
 
