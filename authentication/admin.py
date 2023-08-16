@@ -22,3 +22,17 @@ class CandidateAccountAdmin(admin.ModelAdmin):
 class DepartmentAdmin(admin.ModelAdmin):
     pass
 
+
+
+class canddis(admin.ModelAdmin):
+    fields = ('cv','fname','address','military_status','phone','dob','cand_status')
+    list_display = ('fname','military_status','cv','cand_status')  #to display column 
+    list_display_links=('fname',)
+    list_editable=('cand_status',)  
+    list_filter=('cand_status',)
+    search_fields=('fname','dob')
+    
+    
+    
+admin.site.register(candAccount)
+admin.site.register(cands,canddis)
