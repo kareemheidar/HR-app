@@ -37,7 +37,7 @@ class cands(models.Model):
     )
     
     CandID = models.AutoField(primary_key=True)
-    cv = models.FileField(upload_to='cvs/')
+    cv = models.FileField(upload_to='cvs/%Y-%m-%d/')
     fname = models.CharField(max_length=30)
     phone = models.IntegerField()
     dob= models.DateField()
