@@ -47,6 +47,7 @@ def apply(request):
         vdob = request.POST['dob']
         vcv = request.FILES.get('cv')
         vjobid = request.POST['jobID']
+        print("EL JOB ID IS: ")
         print(vjobid)
         cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjobid, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status)
         cand.save()
