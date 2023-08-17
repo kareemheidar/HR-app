@@ -3,13 +3,19 @@ from .models import candidate, human_resources, job, candidate_account, departme
 
 # Register your models here.
 
-@admin.register(human_resources)
-class HumanResourcesAdmin(admin.ModelAdmin):
+admin.site.site_header = "Admin Panel"
+admin.site.site_title = "HR Admin Panel"
+
+
+@admin.register(human_resources) 
+class human_resources(admin.ModelAdmin):
     pass
 
 @admin.register(job)
 class JobAdmin(admin.ModelAdmin):
-    pass
+    fields=('title','description','depID','HR_code')
+    list_display = ('title','description','depID')
+    
 
 @admin.register(candidate_account)
 class CandidateAccountAdmin(admin.ModelAdmin):
@@ -17,11 +23,14 @@ class CandidateAccountAdmin(admin.ModelAdmin):
 
 @admin.register(department)
 class DepartmentAdmin(admin.ModelAdmin):
-    pass
+    """pass"""
+    fields=('depName',)
+    list_display=('depName',)
+    
 
 
-
-class canddis(admin.ModelAdmin):
+@admin.register(candidate)
+class candAdmin(admin.ModelAdmin):
     fields = ('cv','fname','address','military_status','phone','dob','cand_status')
     list_display = ('fname','military_status','cv','cand_status')  #to display column 
     list_display_links=('fname',)
@@ -29,6 +38,6 @@ class canddis(admin.ModelAdmin):
     list_filter=('cand_status',)
     search_fields=('fname','dob')
     
-admin.site.register(candidate,canddis)
-    
-    
+
+
+  
