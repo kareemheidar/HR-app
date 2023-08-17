@@ -28,6 +28,21 @@ def jobs(request):
     return render(request, 'jobs.html', context)
 
 def application(request):
+    jobs = job.objects.all()
+    job_data = [
+        {
+            'id': job.jobID,
+            'title': job.title,
+            'description': job.description,
+            'category': job.depID.depName
+        }
+        for job in jobs
+    ]
+    context = {
+        'all_jobs': json.dumps(job_data)
+    }
+    print("#################################################")
+    print(context)
     return render(request, 'application.html')
 
 def login(request):
