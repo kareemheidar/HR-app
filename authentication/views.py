@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
-from .models import candidate_account, candidate
+from .models import candidate_account, candidate, job
 from django.contrib import messages
 from django.db.models import QuerySet
 
@@ -47,9 +47,12 @@ def apply(request):
         vdob = request.POST['dob']
         vcv = request.FILES.get('cv')
         vjobid = request.POST['jobID']
+        vjob = job.objects.get( jobID = vjobid)
         print("EL JOB ID IS: ")
         print(vjobid)
-        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjobid, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status)
+        print("EL JOB ES: ")
+        print(job)
+        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status)
         cand.save()
         return render(request, 'Homepage.html')
 

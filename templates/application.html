@@ -23,7 +23,7 @@
                 <div class="elform">
                     <form action="/apply" method="POST" id="application-form" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <input type="hidden" name="jobID" value="{{ jobId }}">
+                        <input type="hidden" name="jobID" id="jobID">
                         <div class="form-group">
                             <label for="first-name">Name:</label>
                             <div class="twin-inputs">
@@ -203,6 +203,8 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
+        var inputElement = document.getElementById("jobID");
+        inputElement.value = jobId;
         showData(jobId);
 
 

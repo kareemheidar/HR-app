@@ -2,9 +2,6 @@ from django.contrib import admin
 from .models import candidate, human_resources, job, candidate_account, department
 
 # Register your models here.
-@admin.register(candidate)
-class CandidateAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(human_resources)
 class HumanResourcesAdmin(admin.ModelAdmin):
@@ -32,7 +29,6 @@ class canddis(admin.ModelAdmin):
     list_filter=('cand_status',)
     search_fields=('fname','dob')
     
+admin.site.register(candidate,canddis)
     
     
-admin.site.register(candAccount)
-admin.site.register(cands,canddis)
