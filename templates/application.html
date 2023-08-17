@@ -86,137 +86,33 @@
     </div>
 
     <script>
-        var jobOpenings = [
-            {
-                id: 1,
-                title: "Chief Accountant",
-                category: "Office & Administration",
-                company: "Madkour",
-                description: "We are looking for a Chief Accountant to join our team and lead our accounting department. The Chief Accountant responsibilities include managing a team of accountants, participating in audits, and monitoring various reports. You will also be required to oversee the implementation of accounting processes, supervise the accounting staff, and participate in the preparation of financial reports. To be successful as a Chief Accountant, you should have excellent leadership and decision-making skills. Ultimately, a top-notch Chief Accountant should be able to demonstrate exceptional accounting knowledge as well as possess a sound understanding of tax laws and regulations.",
-            },
-            {
-                id: 2,
-                title: "Senior PHP Developer",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a PHP Developer responsible for managing back-end services and the interchange of data between the server and the users. Your primary focus will be the development of all server-side logic, definition, and maintenance of the central database, and ensuring high performance and responsiveness to requests from the front-end. You will also be responsible for integrating the front-end elements built by your co-workers into the application. Therefore, a basic understanding of front-end technologies is necessary as well.",
-            },
-            {
-                id: 3,
-                title: "International Business Development Specialist",
-                category: "Sales & Marketing",
-                company: "Madkour",
-                description: "We are looking for a Business Development Specialist to join our team! As a Business Development Specialist, you will be responsible for developing and implementing growth strategies for the achievement of revenue goals. You will also conduct market research and analysis to create detailed business plans on commercial opportunities (expansion, business development, etc.).",
-            },
-            {
-                id: 4,
-                title: "Senior Front End Developer (ReactJS)",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Front-End Web Developer who is motivated to combine the art of design with the art of programming. Responsibilities will include translation of the UI/UX design wireframes to actual code that will produce visual elements of the application. You will work with the UI/UX designer and bridge the gap between graphical design and technical implementation, taking an active role on both sides and defining how the application looks as well as how it works.",
-            },
-            {
-                id: 5,
-                title: "Full Stack Team Leader (ReactJS & NodeJS)",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Full Stack Team Leader to join our team! As a Full Stack Team Leader, you will be responsible for leading a team of developers to build and maintain the company’s products. You will also be responsible for designing user interactions on websites, developing servers, and databases for website functionality, and coding for mobile platforms.",
-            },
-            {
-                id: 6,
-                title: "Senior Full Stack (ReactJS & NodeJS)",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Full Stack Developer to join our team! As a Full Stack Developer, you will be responsible for developing and designing front end web architecture, ensuring the responsiveness of applications, and working alongside graphic designers for web design features, among other duties.",
-            },
-            {
-                id: 7,
-                title: "Senior Software Quality Control Engineer",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Software Quality Control Engineer to join our team! As a Software Quality Control Engineer, you will be responsible for developing and executing exploratory and automated tests to ensure product quality. You will also be responsible for designing and implementing tests, debugging, and defining corrective actions.",
-            },
-            {
-                id: 8,
-                title: "Senior Software Developer C++ - (Computer Vision)",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Software Developer to join our team! As a Software Developer, you will be responsible for developing and implementing software solutions to address complex business issues, providing technical leadership within the team, and collaborating with other developers, business analysts, and software architects to plan, design, develop, test, and maintain business applications.",
-            },
-            {
-                id: 9,
-                title: "Software Team Leader - .Net Core & Angular",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Software Team Leader to join our team! As a Software Team Leader, you will be responsible for leading a team of developers to build and maintain the company’s products. You will also be responsible for designing user interactions on websites, developing servers, and databases for website functionality, and coding for mobile platforms.",
-            },
-            {
-                id: 10,
-                title: "Senior Full Stack Developer - (.Net Core & Angular)",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Full Stack Developer to join our team! As a Full Stack Developer, you will be responsible for developing and designing front end web architecture, ensuring the responsiveness of applications, and working alongside graphic designers for web design features, among other duties.",
-            },
-            {
-                id: 11,
-                title: "Senior NodeJS Developer",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Node.js Developer to join our team! As a Node.js Developer, you will be responsible for managing the interchange of data between the server and the users. Your primary focus will be the development of all server-side logic, definition, and maintenance of the central database, and ensuring high performance and responsiveness to requests from the front-end. You will also be responsible for integrating the front-end elements built by your co-workers into the application. Therefore, a basic understanding of front-end technologies is necessary as well.",
-            },
-            {
-                id: 12,
-                title: "Senior Full-Stack Java Developer (Java+ Angular)",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Full Stack Developer to join our team! As a Full Stack Developer, you will be responsible for developing and designing front end web architecture, ensuring the responsiveness of applications, and working alongside graphic designers for web design features, among other duties.",
-            },
-            {
-                id: 13,
-                title: "Senior Java Developer",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Java Developer to join our team! As a Java Developer, you will be responsible for developing and implementing software solutions to address complex business issues, providing technical leadership within the team, and collaborating with other developers, business analysts, and software architects to plan, design, develop, test, and maintain business applications.",
-            },
-            {
-                id: 14,
-                title: "Java Team Leader",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Java Team Leader to join our team! As a Java Team Leader, you will be responsible for leading a team of developers to build and maintain the company’s products. You will also be responsible for designing user interactions on websites, developing servers, and databases for website functionality, and coding for mobile platforms.",
-            },
-            {
-                id: 15,
-                title: "Senior Full Stack Developer - (.Net Core & ReactJS)",
-                category: "Software Developers",
-                company: "Madkour",
-                description: "We are looking for a Full Stack Developer to join our team! As a Full Stack Developer, you will be responsible for developing and designing front end web architecture, ensuring the responsiveness of applications, and working alongside graphic designers for web design features, among other duties.",
-            },
-            {
-                id: 16,
-                title: "Senior Lead Generation Specialist",
-                category: "Sales & Marketing",
-                company: "Madkour",
-                description: "We are looking for a Lead Generation Specialist to join our team! As a Lead Generation Specialist, you will be responsible for prospecting, qualifying, and generating new sales leads to support the Sales Team. You will also be responsible for developing new business via telephone and mass communication such as email and social media to introduce the company’s products and identify appropriate buyers within the target market.",
-            },
-        ];
+        var jobOpenings = [];
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const jobId = urlParams.get('id');
+            fetch(`/get_job/${jobId}/`)
+            .then(response => response.json())
+            .then(data => {
+                showData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching job data:', error);
+            });
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const jobId = urlParams.get('id');
+        }
         var inputElement = document.getElementById("jobID");
         inputElement.value = jobId;
-        showData(jobId);
+        jobId = parseInt(jobId);
 
 
-        function showData(id) {
-            const JobId = parseInt(id);
+
+        function showData(job) {
             var jobdiv = document.getElementById('jobdiv');
-            var job = jobOpenings.find(job => job.id === JobId);
 
             var jobCard = `
             <div class="job-card-header">
                 <h1>${job.title}</h1>
-                <h2>${job.company}</h2>
+                <h3>MADKOUR</h3>
                 <hr />
             </div>
             <div class="job-card-body">

@@ -72,6 +72,17 @@ def apply(request):
         return render(request, 'Homepage.html')
 
 
+def get_job_by_id(request, job_id):
+    print('get_job_by_id')
+    print("ENTERED GET JOB BY ID")
+    jjob = job.objects.get(jobID=job_id)
+    job_data = {
+        'title': jjob.title,
+        'description': jjob.description,
+        'category': jjob.depID.depName,
+    }
+    return JsonResponse(job_data)
+
 # def apply(request):
 #     if request.method == "POST":
 #         print('first if')
