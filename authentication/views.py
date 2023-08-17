@@ -1,16 +1,31 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
-from .models import candidate_account, candidate, job
+from .models import candidate_account, candidate, job, department
 from django.contrib import messages
 from django.db.models import QuerySet
+import json
+
 
 # Create your views here.
 def home(request):
     return render(request, 'Homepage.html')
 
 def jobs(request):
-    return render(request, 'jobs.html')
+    jobs = job.objects.all()
+    job_data = [
+        {
+            'id': job.jobID,
+            'title': job.title,
+            'description': job.description,
+            'category': job.depID.depName
+        }
+        for job in jobs
+    ]
+    context = {
+        'job_data_json': json.dumps(job_data)  # Convert job_data to JSON
+    }
+    return render(request, 'jobs.html', context)
 
 def application(request):
     return render(request, 'application.html')
