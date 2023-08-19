@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from .models import candidate_account, candidate, job, department
 from django.contrib import messages
 from django.db.models import QuerySet
@@ -45,12 +45,17 @@ def application(request):
     print(context)
     return render(request, 'application.html')
 
-def login(request):
+def signin(request):
     if(request.method == 'POST'):
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username = username, password = password)
-        return render(request, 'jobs.html')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return render(request, 'Homepage.html')
+        else:
+            messages.error(request, 'Username or Password is incorrect')
+            return render(request, 'jobs.html')
     return render(request, 'Login.html')
 
 def logout(request):

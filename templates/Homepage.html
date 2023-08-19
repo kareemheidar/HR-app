@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Madkour Homepage</title>
-    <link rel="StyleSheet" type="text/css" href="{% static 'HomePage.css' %}">
+    <link rel="StyleSheet" type="text/css" href="{% static 'Homepage.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 </head>
@@ -20,12 +20,16 @@
         </ul>
     </nav>
     <div class="content">
+        {% if user.is_authenticated %}
+        <h1 style="font-weight: 500;">Welcome ass</h1>
+        {% else %}        
         <p> your way to excellence - Madkour Group</p>
         <h1 style="font-weight: 500;">Madkour Group</h1>
         <a href="/jobs">
             <button class="Jobs" type="button" style="cursor: pointer;">Explore Jobs</button>
         </a>
         <button class="Jobs" type="button" style="cursor: pointer;"><a href="/addCand">About Us</a></button>
+        {% endif %}
     </div>
 
 </body>

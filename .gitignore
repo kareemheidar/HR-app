@@ -35,8 +35,7 @@ db.sqlite3
 media/
 
 # Compiled JavaScript and CSS Files
-*.js
-*.css
+
 
 # Deployment Files
 Procfile
