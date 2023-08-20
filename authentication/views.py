@@ -56,7 +56,7 @@ def signin(request):
     if(request.method == 'POST'):
         username = request.POST['username']
         password = request.POST['password']
-        user = candidate(username = username, password = password)
+        user = candidate( username = username, password = password)
         user = authenticate(request, username=username, password=password)
         background_image = background_images.objects.first().login
 
