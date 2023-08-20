@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import candidate_account, candidate, job, department
 from django.contrib import messages
 from django.db.models import QuerySet
 import json
+from datetime import datetime
+
 
 
 # Create your views here.
@@ -52,13 +54,15 @@ def signin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return render(request, 'Homepage.html')
+            fname = user.first_name
+            return render(request, 'Homepage.html', {'fname': fname})
         else:
             messages.error(request, 'Username or Password is incorrect')
             return render(request, 'jobs.html')
     return render(request, 'Login.html')
 
-def logout(request):
+def signout(request):
+    logout(request)
     return render(request, 'Homepage.html')
 
 def addCand(request):
@@ -71,23 +75,29 @@ def addCand(request):
         return render(request, 'Homepage.html')
     
 
+def age_calculator(dob):
+    today = datetime.today()
+    dob = datetime.strptime(dob, '%Y-%m-%d')
+    return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
 
 def apply(request):
     if request.method == "POST":
         vfname = request.POST['fname']
         vlname = request.POST['lname']
         vaddress = request.POST['address']
+        vemail = request.POST['email']
         vmilitary_status = request.POST['military_status']
         vphone = request.POST['phone']
         vdob = request.POST['dob']
         vcv = request.FILES.get('cv')
         vjobid = request.POST['jobID']
         vjob = job.objects.get( jobID = vjobid)
+        vage = age_calculator(vdob)
         print("EL JOB ID IS: ")
         print(vjobid)
         print("EL JOB ES: ")
         print(job)
-        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status)
+        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,)
         cand.save()
         return render(request, 'Homepage.html')
 

@@ -49,13 +49,14 @@ class candidate(models.Model):
     dob= models.DateField()
     address = models.CharField(max_length=255)
     email = models.EmailField()
-    jobID = models.ForeignKey('job', on_delete=models.CASCADE)    
+    jobID = models.ForeignKey('job', on_delete=models.CASCADE) 
+    username = models.CharField(max_length=30, null=True, blank=True)
+    password = models.CharField(max_length=30, null=True, blank=True) 
+    age = models.IntegerField(default=0)  
     
-    def age(self):
-        return int((datetime.now().date() - self.dob).days / 365.25)   
-
     class Meta:
         db_table = 'candidate'
+
 
 class candidate_account(models.Model):
     username = models.CharField(max_length=30)

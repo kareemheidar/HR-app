@@ -16,12 +16,16 @@
     <nav>
         <ul class="logo">
             <li><image src="{% static 'logo1.png' %}"></image></li>
+            {% if user.is_authenticated %}
+            <li id="login-btn"><a href="/logout">Logout</a></li>
+            {% else %}
             <li id="login-btn"><a href="/login">Login</a></li>
+            {% endif %}
         </ul>
     </nav>
     <div class="content">
         {% if user.is_authenticated %}
-        <h1 style="font-weight: 500;">Welcome</h1>
+        <h1 style="font-weight: 500;">Welcome {{ fname }}</h1>
         {% else %}        
         <p> your way to excellence - Madkour Group</p>
         <h1 style="font-weight: 500;">Madkour Group</h1>
