@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,9 +82,9 @@ WSGI_APPLICATION = 'gfg.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'madbase',
+        'NAME': 'madkour1',
         'USER': 'root',
-        'PASSWORD': 'DB@Madkour@123',
+        'PASSWORD': 'p@$$W0rd',
         'HOST': 'localhost',
         'PORT': '3306',
     }

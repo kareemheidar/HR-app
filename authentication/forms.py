@@ -16,3 +16,9 @@ class human_resources(forms.ModelForm):
     class Meta:
         model = human_resources       
         fields = ('HR_code','username','password')
+        
+        
+class candidate_account(forms.ModelForm):
+    class Meta:
+        model = candidate_account       
+        fields = ('candID','username','password')

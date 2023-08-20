@@ -8,7 +8,7 @@ from django.contrib import messages
 admin.site.site_header = "Admin Panel"
 admin.site.site_title = "HR Admin Panel"
 
-def register_candidate(modeladmin, request, queryset):
+def register_candidate(modeladmin, request, queryset): #to allow candidate to login - an action is created to transfer candidate data in user.auth
     for candidate in queryset:
         if candidate.username is not None and candidate.password is not None:
             username = candidate.username
