@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import candidate, human_resources, job, candidate_account, department
+from .models import candidate, human_resources, job, candidate_account, department, background_images
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -28,8 +28,8 @@ class human_resources(admin.ModelAdmin):
 
 @admin.register(job)
 class JobAdmin(admin.ModelAdmin):
-    fields=('title','description','depID','HR_code')
-    list_display = ('title','description','depID')
+    fields=('title','description','depName','depID','HR_code','applicants_count','level','work_arrangement','salary', 'years_of_experience', 'location')
+    list_display = ('title', 'depName','applicants_count')
     
 
 @admin.register(candidate_account)
@@ -40,11 +40,13 @@ class CandidateAccountAdmin(admin.ModelAdmin):
 
 @admin.register(department)
 class DepartmentAdmin(admin.ModelAdmin):
-    """pass"""
     fields=('depName',)
     list_display=('depName',)
     
-
+@admin.register(background_images)
+class BackgroundImagesAdmin(admin.ModelAdmin):
+    fields=('homepage','jobs','application','thank_you','logout','login','account')
+    list_display=('homepage','jobs','application','thank_you','logout','login','account')
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):

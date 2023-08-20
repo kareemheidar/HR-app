@@ -84,12 +84,61 @@ class department(models.Model):
         db_table = 'department'
 
 
+# class job(models.Model):
+#     jobID = models.AutoField(primary_key=True)
+#     title = models.CharField(max_length=60)
+#     description = models.TextField()
+#     depID = models.ForeignKey('department', on_delete=models.CASCADE)
+#     HR_code = models.ForeignKey('human_resources', on_delete=models.CASCADE)
+#     applicants_count = models.IntegerField(default=0)
+    
+#     class Meta:
+#         db_table = 'job'
+
 class job(models.Model):
+    LEVEL_CHOICES = [
+        ('Entry', 'Entry'),
+        ('Mid', 'Mid'),
+        ('Senior', 'Senior'),
+    ]
+    
+    WORK_ARRANGEMENT_CHOICES = [
+        ('Office', 'Office'),
+        ('Hybrid', 'Hybrid'),
+        ('Remote', 'Remote'),
+    ]
+    
+    LOCATION_CHOICES = [
+        ('Cairo', 'Cairo'),
+        ('Giza', 'Giza'),
+        ('Alexandria', 'Alexandria'),
+    ]
     jobID = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=30)
-    description = models.CharField(max_length=255)
+    title = models.CharField(max_length=100)
+    depName = models.CharField(max_length=100, null=True, blank=True)
+    level = models.CharField(max_length=10, choices=LEVEL_CHOICES, default='Entry')
+    description = models.TextField(null=True, blank=True)
+    applicants_count = models.PositiveIntegerField(default=0)
+    years_of_experience = models.PositiveIntegerField(default=0)
+    work_arrangement = models.CharField(max_length=10, choices=WORK_ARRANGEMENT_CHOICES, default='Office')
+    location = models.CharField(max_length=50, choices=LOCATION_CHOICES, default='Cairo')
+    salary = models.PositiveIntegerField(null=True, blank=True)
     depID = models.ForeignKey('department', on_delete=models.CASCADE)
     HR_code = models.ForeignKey('human_resources', on_delete=models.CASCADE)
-    
+
     class Meta:
         db_table = 'job'
+
+
+
+class background_images(models.Model):
+    homepage = models.URLField(max_length=255,  null=True, blank=True)
+    jobs = models.URLField(max_length=255,  null=True, blank=True)
+    application = models.URLField(max_length=255,  null=True, blank=True)
+    thank_you = models.URLField(max_length=255,  null=True, blank=True)
+    logout = models.URLField(max_length=255,  null=True, blank=True)
+    login = models.URLField(max_length=255,  null=True, blank=True)
+    account = models.URLField(max_length=255,  null=True, blank=True)
+
+    class Meta:
+        db_table = 'background_images'

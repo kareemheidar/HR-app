@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from .models import candidate_account, candidate, job, department
+from .models import candidate_account, candidate, job, department, background_images
 from .forms import candidate_account
 from django.contrib import messages
 from django.db.models import QuerySet
@@ -12,7 +12,11 @@ from datetime import datetime
 
 # Create your views here.
 def home(request):
-    return render(request, 'Homepage.html')
+    background_image = background_images.objects.first().homepage
+    context = {
+        'background_image': background_image
+    }
+    return render(request, 'Homepage.html', context)
 
 def jobs(request):
     jobs = job.objects.all()
@@ -41,23 +45,29 @@ def application(request):
         }
         for job in jobs
     ]
+    background_image = background_images.objects.first().application
     context = {
-        'all_jobs': json.dumps(job_data)
+        'job_data_json': json.dumps(job_data),
+        'background_image': background_image
     }
-    print("#################################################")
-    print(context)
-    return render(request, 'application.html')
+    return render(request, 'application.html', context)
 
 def signin(request):
     if(request.method == 'POST'):
         username = request.POST['username']
         password = request.POST['password']
-        user = candidate_account( username = username, password = password)
+        user = candidate(username = username, password = password)
         user = authenticate(request, username=username, password=password)
+        background_image = background_images.objects.first().login
+
         if user is not None:
             login(request, user)
             fname = user.first_name
-            return render(request, 'Homepage.html', {'fname': fname})
+            context = {
+                'background_image': background_image,
+                'fname': fname
+            }
+            return render(request, 'Homepage.html', context)
         else:
             messages.error(request, 'Username or Password is incorrect')
             return render(request, 'jobs.html')
@@ -65,7 +75,11 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    return render(request, 'Homepage.html')
+    background_image = background_images.objects.first().homepage
+    context = {
+        'background_image': background_image
+    }
+    return render(request, 'Homepage.html', context)
 
 def addCand(request):
     if(request.method == 'POST'):
@@ -95,10 +109,8 @@ def apply(request):
         vjobid = request.POST['jobID']
         vjob = job.objects.get( jobID = vjobid)
         vage = age_calculator(vdob)
-        print("EL JOB ID IS: ")
-        print(vjobid)
-        print("EL JOB ES: ")
-        print(job)
+        vjob.applicants_count = vjob.applicants_count + 1
+        vjob.save()
         cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,)
         cand.save()
         return render(request, 'Homepage.html')
