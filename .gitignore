@@ -40,3 +40,6 @@ media/
 # Deployment Files
 Procfile
 runtime.txt
+
+# Project settings file
+settings.py
