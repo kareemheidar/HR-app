@@ -68,6 +68,7 @@ div input::placeholder{
   margin-bottom: 10px;
   box-shadow: 0 0 5px black; /*to make a shadow around login button*/
   font-weight: 600;
+  cursor: pointer;
   
   
 }
