@@ -49,6 +49,7 @@ def signin(request):
     if(request.method == 'POST'):
         username = request.POST['username']
         password = request.POST['password']
+        user = candidate_account( username = username, password = password)
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -57,6 +58,7 @@ def signin(request):
             messages.error(request, 'Username or Password is incorrect')
             return render(request, 'jobs.html')
     return render(request, 'Login.html')
+
 
 def logout(request):
     return render(request, 'Homepage.html')

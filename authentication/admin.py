@@ -17,9 +17,11 @@ class JobAdmin(admin.ModelAdmin):
     list_display = ('title','description','depID')
     
 
-@admin.register(candidate_account)
+"""@admin.register(candidate_account)
 class CandidateAccountAdmin(admin.ModelAdmin):
-    pass
+   fields=('candID','username','password')
+   list_display=('username','password','candID')
+   """
 
 @admin.register(department)
 class DepartmentAdmin(admin.ModelAdmin):
