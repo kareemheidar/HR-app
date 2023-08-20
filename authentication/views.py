@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login
 from .models import candidate_account, candidate, job, department
+from .forms import candidate_account
 from django.contrib import messages
 from django.db.models import QuerySet
 import json
@@ -104,6 +105,9 @@ def get_job_by_id(request, job_id):
         'category': jjob.depID.depName,
     }
     return JsonResponse(job_data)
+
+
+
 
 # def apply(request):
 #     if request.method == "POST":

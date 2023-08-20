@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 admin.site.site_header = "Admin Panel"
 admin.site.site_title = "HR Admin Panel"
 
-def register_candidate(modeladmin, request, queryset):
+def register_candidate(modeladmin, request, queryset): #to allow candidate to login - an action is created to transfer candidate data in user.auth
     for candidate in queryset:
         username = candidate.username
         password = candidate.password
@@ -27,7 +27,9 @@ class JobAdmin(admin.ModelAdmin):
 
 @admin.register(candidate_account)
 class CandidateAccountAdmin(admin.ModelAdmin):
-    list_display = ('username','password')
+    fields=('candID','username','password')
+    list_display = ('username','password','candID')
+    list_editable=('candID',)  
     actions = [register_candidate]
 
 @admin.register(department)
