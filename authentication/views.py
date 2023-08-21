@@ -66,6 +66,7 @@ def signin(request):
         if user is not None:
             login(request, user)
             cand = candidate.objects.get(email= user.email)
+            fname=cand.fname
             status = cand.cand_status
             message=cand.Note
             job_id = cand.jobID_id
@@ -79,7 +80,8 @@ def signin(request):
                 'status':status,
                 'message':message,
                 'job_description':job_description,
-                'job_title' :job_title
+                'job_title' :job_title,
+                'fname':fname
             }
             return render(request, 'status.html', context)
             
