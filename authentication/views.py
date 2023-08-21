@@ -21,6 +21,7 @@ def home(request):
 def jobs(request):
     # get all jobs that are active
     jobs = job.objects.filter(is_active=True)
+    deps = department.objects.all()
     job_data = [
         {
             'id': job.jobID,
@@ -38,8 +39,14 @@ def jobs(request):
         }
         for job in jobs
     ]
+    # get all unique work arrangements
+    work_arrangements = job.objects.values_list('work_arrangement', flat=True).distinct()
+    locs = job.objects.values_list('location', flat=True).distinct()
     context = {
-        'job_data_json': json.dumps(job_data, cls=DjangoJSONEncoder)  # Convert job_data to JSON
+        'job_data_json': json.dumps(job_data, cls=DjangoJSONEncoder) ,
+        'departments': deps,
+        'arrangements': work_arrangements,
+        'locations': locs
     }
     return render(request, 'jobs.html', context)
 

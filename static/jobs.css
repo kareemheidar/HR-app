@@ -8,9 +8,10 @@ body {
 
 .container {
     background-color: #eff7f7;
-    width: 60%;
+    width: 80%;
     margin: auto;
     text-align: center;
+    margin-top: 2rem;
 }
 
 .title {
@@ -24,7 +25,7 @@ body {
     line-height: 28px;
     align-items: center;
     position: relative;
-    max-width: 190px;
+    width: 100%;
 }
 
 .input {
@@ -39,10 +40,45 @@ body {
     background-color: #f3f3f4;
     color: #0d0c22;
     transition: .3s ease;
+    font-family: "Nunito", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    text-align: start;
+}
+
+.select {
+    width: 100%;
+    height: 40px;
+    line-height: 28px;
+    padding: 0 1rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f3f3f4;
+    color: #0d0c22;
+    transition: .3s ease;
+    font-family: "Nunito", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    text-align: start;
 }
 
 .input::placeholder {
     color: #9e9ea7;
+}
+
+select::placeholder {
+    color: #9e9ea7;
+}
+
+option {
+    color: #0d0c22;
+    font-family: "Nunito", sans-serif;
+}
+
+option:hover {
+    background-color: #eff7f7;
+    color: #4e007a;
 }
 
 .input:focus,
@@ -61,6 +97,10 @@ input:hover {
     height: 1rem;
 }
 
+#jobdiv {
+    min-width: 70%;
+}
+
 .jobElement {
     background-color: #fff;
     color: #212121;
@@ -71,7 +111,6 @@ input:hover {
     display: flex;
     justify-content: space-between;
     align-items: start;
-
 }
 
 .jobElement:hover {
@@ -102,6 +141,7 @@ input:hover {
     font-weight: 300;
     padding-top: 1rem;
     min-width: 150px;
+    margin-left: 2rem;
 }
 
 .applybtn {
@@ -134,12 +174,140 @@ input:hover {
     background-color: #fff;
     color: #212121;
     border-radius: 8px;
-    padding: 1rem 3rem;
+    padding: 1rem 1.5rem;
     box-shadow: 0 0 0 1px rgb(0 0 0 / 4%), 0 4px 8px rgb(0 0 0 / 4%);
     margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    min-width: 180px;
+
+    min-width: 260px;
     min-height: 300px;
+    width: 25%;
+}
+
+.section {
+    text-align: start;
+}
+
+.section h3 {
+    color: #4e007a;
+    font-size: 17px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, #eff7f7, #8bc5f1, #eff7f7);
+    opacity: 0.5;
+    margin-top: 30px;
+}
+
+#reset-button {
+    background-color: #232946;
+    color: #fff;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    padding: 0.3rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .3s ease;
+    width: 100%;
+}
+
+#reset-button:hover {
+    background-color: #fff;
+    color: #232946;
+    border: 3px solid #232946;
+
+}
+
+
+
+
+
+
+
+
+
+.location-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #30cfd0;
+    border-radius: 5px;
+    background-color: transparent;
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.location-checkbox:before {
+    content: "";
+    background-color: #4e007a;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.location-checkbox:checked:before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+
+
+
+
+
+
+
+
+
+
+.arrangement-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #30cfd0;
+    border-radius: 5px;
+    background-color: transparent;
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.arrangement-checkbox:before {
+    content: "";
+    background-color: #4e007a;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.arrangement-checkbox:checked:before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+
+
+
+.cyberpunk-checkbox-label {
+    font-size: 16px;
+    color: #0d0c22;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
 }
