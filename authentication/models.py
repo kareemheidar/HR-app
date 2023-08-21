@@ -53,6 +53,7 @@ class candidate(models.Model):
     username = models.CharField(max_length=30, null=True, blank=True)
     password = models.CharField(max_length=30, null=True, blank=True) 
     age = models.IntegerField(default=0)  
+    Note = models.TextField(null=True, blank=True)
     
     class Meta:
         db_table = 'candidate'

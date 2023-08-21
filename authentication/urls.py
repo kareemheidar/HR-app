@@ -10,5 +10,6 @@ urlpatterns = [
     path('jobs', views.jobs, name='jobs'),
     path('application', views.application, name='application'),
     path('apply', views.apply, name='apply'),
-    path('get_job/<int:job_id>/', views.get_job_by_id, name='get_job_by_id')
+    path('get_job/<int:job_id>/', views.get_job_by_id, name='get_job_by_id'),
+    #path('get_status', views.get_status, name='get_status')
 ]

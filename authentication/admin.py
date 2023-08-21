@@ -31,6 +31,7 @@ class JobAdmin(admin.ModelAdmin):
     fields=('title','description','depName','depID','HR_code','applicants_count','level','work_arrangement','salary', 'years_of_experience', 'location')
     list_display = ('title', 'depName','applicants_count')
     
+    
 
 @admin.register(candidate_account)
 class CandidateAccountAdmin(admin.ModelAdmin):
@@ -50,10 +51,10 @@ class BackgroundImagesAdmin(admin.ModelAdmin):
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):
-    fields = ('cv','fname','address','military_status','phone','dob','cand_status','email','jobID','password', 'username', 'age')
-    list_display = ('fname','cv','cand_status',)  #to display column 
+    fields = ('cv','fname','address','military_status','phone','dob','cand_status','email','jobID','password', 'username', 'age','Note')
+    list_display = ('fname','cv','cand_status','Note')  #to display column 
     list_display_links=('fname',)
-    list_editable=('cand_status',)  
+    list_editable=('cand_status','Note')  
     list_filter=('cand_status',)
     search_fields=('fname','dob')
     actions = [register_candidate]

@@ -18,6 +18,7 @@ def home(request):
     }
     return render(request, 'Homepage.html', context)
 
+
 def jobs(request):
     # get all jobs that are active
     jobs = job.objects.filter(is_active=True)
@@ -49,6 +50,9 @@ def jobs(request):
         'locations': locs
     }
     return render(request, 'jobs.html', context)
+
+
+
 
 def application(request):
     # get all jobs that are active
@@ -84,15 +88,28 @@ def signin(request):
         user = candidate( username = username, password = password)
         user = authenticate(request, username=username, password=password)
         background_image = background_images.objects.first().login
-
         if user is not None:
             login(request, user)
-            fname = user.first_name
+            cand = candidate.objects.get(email= user.email)
+            fname=cand.fname
+            status = cand.cand_status
+            message=cand.Note
+            job_id = cand.jobID_id
+            jobx = job.objects.get(jobID=job_id)
+            job_title= jobx.title
+            job_description=jobx.description
+            
+            
             context = {
-                'background_image': background_image,
-                'fname': fname
+                #'background_image': background_image,
+                'status':status,
+                'message':message,
+                'job_description':job_description,
+                'job_title' :job_title,
+                'fname':fname
             }
-            return render(request, 'Homepage.html', context)
+            return render(request, 'status.html', context)
+            
         else:
             messages.error(request, 'Username or Password is incorrect')
             return render(request, 'jobs.html')
@@ -153,6 +170,23 @@ def get_job_by_id(request, job_id):
     return JsonResponse(job_data)
 
 
+"""def get_status(request,username):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        user = candidate.objects.get(username=username)
+        status = user.cand_status
+        Message = user.Note
+        jobDetail=job.objects.get(jobID=user.jobID)
+        jobDescription=jobDetail.description
+        jobTitle="jobDetail.title"
+        context = {
+            'job_Title': jobTitle ,
+            'job_description' : jobDescription , 
+            'status' : status ,
+            'Message' : Message
+        }
+    return render(request,'status.html',context)"""
+    
 
 
 # def apply(request):
