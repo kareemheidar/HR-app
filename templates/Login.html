@@ -1,36 +1,57 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zxx">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<title>Login Form</title>
+
+	<!-- Meta tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="StyleSheet" type="text/css" href="{% static 'Login.css' %}">
+	<!-- Style -->
+	<!--link rel="stylesheet" href="css/style.css" type="text/css" media="all" /-->
 </head>
+
 <body>
-    <section class="logo">
-    <image type="logo" src="{% static 'logo1.png' %}"></image>
-    </section>
+	<!-- login form -->
+	<section class="madkour">
+		<image type="logo" src="{% static 'logo1.png' %}"></image>
+	</section>
+	<section class="w3l-login">
+		<div class="overlay">
+			<div class="wrapper">
+				<div class="logo">
+				</div>
+				<div class="form-section">
+					<h3>Login</h3>
+					<h6>Welcome to Madkour Group</h6>
+					<form form action="/login" method="post" class="signin-form">
+                     {% csrf_token %}
+						<div class="form-input">
+							<input type="text" id="username" name="username" placeholder="Username" required="" autofocus>
+						</div>
+						<div class="form-input">
+							<input type="password" id="password" name="password" placeholder="Password" required="">
+						</div>
+						
+						<button type="submit" class="btn btn-primary theme-button mt-4">Log in</button>
+						<div class="new-signup">
+							<a href="#reload" class="signuplink">Forgot username or password?</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div id='stars'></div>
+		<div id='stars2'></div>
+		<div id='stars3'></div>
 
-<div class="wrap">
-    
-    <form action="/login" method="post">
-        {% csrf_token %}
-        <h1>Login</h1>
-        <div class="input-box">
-          <input type="text" id="username" name="username" placeholder="Enter your username" required><br><br>
-        </div>
-     <div class="input-box">
-          <input type="password" id="password" name="password" placeholder="Enter your Password" required><br><br>
-     </div>    
-     <button id="login-button" type="submit" name="Login">Log in</button>
-    </form>
-    
-    
-    <div class="forget-link">
-        <a href="#"> Forgot Password?</a>
-    </div>
+		
+	</section>
 
-</div>
+	<!-- /login form -->
 </body>
+
 </html>
