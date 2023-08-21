@@ -18,6 +18,7 @@ def home(request):
     }
     return render(request, 'Homepage.html', context)
 
+
 def jobs(request):
     jobs = job.objects.all()
     job_data = [
@@ -33,6 +34,9 @@ def jobs(request):
         'job_data_json': json.dumps(job_data)  # Convert job_data to JSON
     }
     return render(request, 'jobs.html', context)
+
+
+
 
 def application(request):
     jobs = job.objects.all()
@@ -59,7 +63,7 @@ def signin(request):
         user = candidate( username = username, password = password)
         user = authenticate(request, username=username, password=password)
         background_image = background_images.objects.first().login
-
+        print(user.password)
         if user is not None:
             login(request, user)
             fname = user.first_name
@@ -67,7 +71,7 @@ def signin(request):
                 'background_image': background_image,
                 'fname': fname
             }
-            return render(request, 'Homepage.html', context)
+            return render(request, 'status.html', context)
         else:
             messages.error(request, 'Username or Password is incorrect')
             return render(request, 'jobs.html')
@@ -128,6 +132,23 @@ def get_job_by_id(request, job_id):
     return JsonResponse(job_data)
 
 
+def get_status(request,username):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        user = candidate.objects.get(username=username)
+        status = user.cand_status
+        Message = user.Note
+        jobDetail=job.objects.get(jobID=user.jobID)
+        jobDescription=jobDetail.description
+        jobTitle="jobDetail.title"
+        context = {
+            'job_Title': jobTitle ,
+            'job_description' : jobDescription , 
+            'status' : status ,
+            'Message' : Message
+        }
+    return render(request,'status.html',context)
+    
 
 
 # def apply(request):
