@@ -125,6 +125,8 @@ class job(models.Model):
     salary = models.PositiveIntegerField(null=True, blank=True)
     depID = models.ForeignKey('department', on_delete=models.CASCADE)
     HR_code = models.ForeignKey('human_resources', on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=datetime.now, blank=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'job'

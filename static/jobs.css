@@ -2,12 +2,12 @@ body {
     font-family: "Nunito", sans-serif;
     color: #232946;
     margin: 0%;
-    background-color: #FAFAFA;
+    background-color: #eff7f7;
 
 }
 
 .container {
-    background-color: #FAFAFA;
+    background-color: #eff7f7;
     width: 60%;
     margin: auto;
     text-align: center;
@@ -61,3 +61,85 @@ input:hover {
     height: 1rem;
 }
 
+.jobElement {
+    background-color: #fff;
+    color: #212121;
+    border-radius: 8px;
+    padding: 1rem 3rem;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 4%), 0 4px 8px rgb(0 0 0 / 4%);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+
+}
+
+.jobElement:hover {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+    transition: all 0.3s ease 0s;
+
+}
+
+.block1 {
+    text-align: left;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    padding-top: 0%;
+    padding-bottom: 0%;
+
+}
+
+.block1 .p {
+    padding: 0;
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
+.block2 {
+    text-align: start;
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding-top: 1rem;
+    min-width: 150px;
+}
+
+.applybtn {
+    background-color: #232946;
+    color: #fff;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    padding: 0.3rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.applybtn:hover {
+    background-color: #fff;
+    color: #232946;
+    border: 3px solid #232946;
+
+}
+
+.box {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+}
+
+.filter_search {
+    background-color: #fff;
+    color: #212121;
+    border-radius: 8px;
+    padding: 1rem 3rem;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 4%), 0 4px 8px rgb(0 0 0 / 4%);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    min-width: 180px;
+    min-height: 300px;
+}
