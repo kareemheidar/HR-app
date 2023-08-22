@@ -8,6 +8,7 @@ from django.db.models import QuerySet
 import json
 from datetime import datetime
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -170,6 +171,18 @@ def get_job_by_id(request, job_id):
     return JsonResponse(job_data)
 
 
+# def register_candidate(modeladmin, request,queryset):
+#     for candidate in queryset:
+#         if candidate.username is not None and candidate.password is not None:
+#             username = candidate.username
+#             password = candidate.password
+#             email=candidate.email
+#             newuser=User.objects.create_user(username,email,password)
+#             newuser.first_name=candidate.fname
+#             newuser.last_name = candidate.lname
+#             newuser.save()
+
+
 """def get_status(request,username):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -187,6 +200,8 @@ def get_job_by_id(request, job_id):
         }
     return render(request,'status.html',context)"""
     
+    
+
 
 
 # def apply(request):

@@ -57,12 +57,15 @@ a:hover{
 .wrap {
     width: 80%;
     margin: 0 auto;
+
+	
 }
 /*--profile start here--*/
 h1 {
     font-size: 3em;
     color: #fff;
     text-align: center;
+
 }
 .profile-main {
     background: no-repeat 0px 0px;
