@@ -10,35 +10,118 @@
     <link rel="stylesheet" type="text/css" href="{% static 'jobs.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="StyleSheet" type="text/css" href="{% static 'Homepage.css' %}">
+
+
+
 </head>
 
 <body>
+    <nav style="background-color: #232946;">
+        <ul class="logo">
+            <a href="/"><li><image src="{% static 'logo1.png' %}"></image></li></a>
+            {% if user.is_authenticated %}
+            <li id="login-btn"><a href="/logout"><i class="fa-solid fa-right-from-bracket" style="margin-right: 5px;"></i> Logout</a></li>
+            {% else %}
+            <li id="login-btn"><a href="/login"><i class="fa-solid fa-right-to-bracket" style="margin-right: 5px;"></i> Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
     <div class="container">
-        <h1 class="title">Job Openings</h1>
-        <div class="group">
-            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <g>
-                    <path
-                        d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
-                    </path>
-                </g>
-            </svg>
-            <input placeholder="Search" type="text" class="input" id="searchbar">
+        <div class="box">
+            <div class="filter_search">
+                <div class="section">
+                    <h3>SEARCH</h3>
+                    <div class="group">
+                        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                            <g>
+                                <path
+                                    d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                                </path>
+                            </g>
+                        </svg>
+                        <input placeholder="Search Jobs.." type="text" class="input" id="searchbar">
+                    </div>
+                    <hr />
+                </div>
+                <div class="section">
+                    <h3>DEPARTMENT</h3>
+                    <select class="select" id="selectbar" placeholder="Search by department">
+                        <option value="All">Select a department</option>
+                        {% for department in departments %}
+                        <option value="{{ department.depName }}">{{ department.depName }}</option>
+                        {% endfor %}
+                    </select>
+                    <hr />
+                </div>
+                <div class="section">
+                    <h3>LOCATION</h3>
+                    {% for location in locations %}
+                    <label class="cyberpunk-checkbox-label"><input type="checkbox"
+                            class="location-checkbox filter-checkbox">{{location}}</label>
+                    {% endfor %}
+                    <hr />
+                </div>
+                <div class="section">
+                    <h3>WORK ARRANGEMENT</h3>
+                    {% for arr in arrangements %}
+                    <label class="cyberpunk-checkbox-label"><input type="checkbox"
+                            class="arrangement-checkbox filter-checkbox">{{arr}}</label>
+                    {% endfor %}
+                    <hr />
+                </div>
+                <div class="section" style="display: flex; justify-content: center;">
+                    <button id="reset-button">Reset Filters</button>
+                </div>
+            </div>
+            <div id="jobdiv"></div>
         </div>
-        <div id="jobdiv"></div>
 
     </div>
 
     <script>
         var jobOpenings = JSON.parse('{{ job_data_json|escapejs }}');
 
+        function applyFiltersAndSearch() {
+            var checkedArrangements = $('.arrangement-checkbox:checked').map(function () {
+                return $(this).parent().text().trim();
+            }).get();
 
-        $('#searchbar').on('keyup', function () {
-            var value = $(this).val();
-            console.log(value);
-            var data = searchData(value, jobOpenings);
-            showData(data);
-        });
+            var checkedLocations = $('.location-checkbox:checked').map(function () {
+                return $(this).parent().text().trim();
+            }).get();
+
+            var filteredData = jobOpenings.filter(function (job) {
+                return (checkedArrangements.length === 0 || checkedArrangements.includes(job.work_arrangement)) &&
+                    (checkedLocations.length === 0 || checkedLocations.includes(job.location));
+            });
+
+            var searchValue = $('#searchbar').val();
+            filteredData = searchData(searchValue, filteredData);
+
+            var selectValue = $('#selectbar').val();
+            if (selectValue !== 'All') {
+                filteredData = filteredData.filter(function (job) {
+                    return job.category === selectValue;
+                });
+            }
+
+            showData(filteredData);
+        }
+
+        function resetFilters() {
+            $('.arrangement-checkbox').prop('checked', false);
+            $('.location-checkbox').prop('checked', false);
+            $('#searchbar').val('');
+            $('#selectbar').val('All');
+            applyFiltersAndSearch();
+        }
+
+        $('#searchbar').on('keyup', applyFiltersAndSearch);
+        $('.filter-checkbox').on('change', applyFiltersAndSearch);
+        $('#selectbar').on('change', applyFiltersAndSearch);
+        $('#reset-button').on('click', resetFilters);
         showData(jobOpenings);
 
         function searchData(value, data) {
@@ -46,7 +129,8 @@
             for (var i = 0; i < data.length; i++) {
                 value = value.toLowerCase();
                 var name = data[i].title.toLowerCase();
-                if (name.includes(value)) {
+                var category = data[i].category.toLowerCase();
+                if (name.includes(value) || category.includes(value)) {
                     filteredData.push(data[i]);
                 }
             }
@@ -59,11 +143,20 @@
             data.forEach(job => {
                 var jobElement = document.createElement('div');
                 jobElement.style.cursor = 'pointer';
+                jobElement.className = 'jobElement';
 
                 jobElement.innerHTML = `
-            <h2>${job.title}</h2>
-            <p>${job.category} <span style="font-weight: 800; font-size: 18px;"> · </span> Madkour </p>
-            <hr/>
+                <div class="block1">
+                    <h2 style="margin-bottom: 0px; ">${job.title}</h2>
+                    <p style="margin-top: 2px; color: #444;">${job.category}</p>
+                    <button class="applybtn">Apply Now</button>
+                    </div>
+                    <div class="block2">
+                        <p><i class="far fa-calendar-alt" style="margin-right: 5px;"></i> ${job.date_posted}</p>
+                        <p><i class="fa fa-money-bills" style="margin-right: 5px;"></i> ${job.salary}</p>
+                        <p style="font-size: 0.9rem;"><i class="fa-solid fa-earth-americas" style="margin-right: 5px;"></i> ${job.location}<span style="font-weight: 800; font-size: 18px;"> · </span> ${job.work_arrangement}</p>
+                </div>
+
         `;
 
                 jobElement.addEventListener('click', function () {

@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.db.models import QuerySet
 import json
 from datetime import datetime
-
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 # Create your views here.
@@ -20,18 +20,34 @@ def home(request):
 
 
 def jobs(request):
-    jobs = job.objects.all()
+    # get all jobs that are active
+    jobs = job.objects.filter(is_active=True)
+    deps = department.objects.all()
     job_data = [
         {
             'id': job.jobID,
             'title': job.title,
             'description': job.description,
-            'category': job.depID.depName
+            'category': job.depID.depName,
+            'applicants_count': job.applicants_count,
+            'years_of_experience': job.years_of_experience,
+            'work_arrangement': job.work_arrangement,
+            'location': job.location,
+            'salary': job.salary,
+            'date_posted': job.date_posted.strftime('%Y-%m-%d'),
+            'level': job.level,
+
         }
         for job in jobs
     ]
+    # get all unique work arrangements
+    work_arrangements = job.objects.values_list('work_arrangement', flat=True).distinct()
+    locs = job.objects.values_list('location', flat=True).distinct()
     context = {
-        'job_data_json': json.dumps(job_data)  # Convert job_data to JSON
+        'job_data_json': json.dumps(job_data, cls=DjangoJSONEncoder) ,
+        'departments': deps,
+        'arrangements': work_arrangements,
+        'locations': locs
     }
     return render(request, 'jobs.html', context)
 
@@ -39,19 +55,28 @@ def jobs(request):
 
 
 def application(request):
-    jobs = job.objects.all()
+    # get all jobs that are active
+    jobs = job.objects.filter(is_active=True)
     job_data = [
         {
             'id': job.jobID,
             'title': job.title,
             'description': job.description,
-            'category': job.depID.depName
+            'category': job.depID.depName,
+            'applicants_count': job.applicants_count,
+            'years_of_experience': job.years_of_experience,
+            'work_arrangement': job.work_arrangement,
+            'location': job.location,
+            'salary': job.salary,
+            'date_posted': job.date_posted.strftime('%Y-%m-%d'),
+            'level': job.level,
+
         }
         for job in jobs
     ]
     background_image = background_images.objects.first().application
     context = {
-        'job_data_json': json.dumps(job_data),
+        'job_data_json': json.dumps(job_data, cls=DjangoJSONEncoder),
         'background_image': background_image
     }
     return render(request, 'application.html', context)
