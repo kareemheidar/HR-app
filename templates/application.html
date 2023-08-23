@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 </head>
 
@@ -42,9 +42,10 @@
                         </div-->
                         <div class="form-group">
                             <label for="work-email">Work Email:</label>
-                            <input type="email" id="email" name="email" placeholder="example@gmail.com" required oninput="validateEmail()">
+                            <input type="email" id="email" name="email" placeholder="example@gmail.com" required
+                                oninput="validateEmail()">
                             <!--small>Please enter a valid email address with a supported domain (e.g., gmail.com, yahoo.com, hotmail.com).</small-->
-                        </div> 
+                        </div>
 
                         <div class="form-group">
                             <label for="address">Address:</label>
@@ -53,8 +54,9 @@
 
                         <div class="form-group">
                             <label for="phone">Phone Number:</label>
-                            <input type="tel" id="phone" name="phone" placeholder="01234567890" required  pattern="[0-9]{4}[0-9]{3}[0-9]{4}">
-                          </div>
+                            <input type="tel" id="phone" name="phone" placeholder="01234567890" required
+                                pattern="[0-9]{4}[0-9]{3}[0-9]{4}">
+                        </div>
 
                         <div class="form-group">
                             <label for="dob">Date of Birth:</label>
@@ -139,70 +141,21 @@
             });
         });
     </script>
-     <script>
+    <script>
         function validateEmail() {
-                var emailInput = document.getElementById("email");
-                var email = emailInput.value;
-                var domain = email.split("@")[1];
-                var validDomains = ["gmail.com", "yahoo.com", "hotmail.com"]; // Add your desired valid domains here
-    
-                if (!validDomains.includes(domain)) {
-                    emailInput.setCustomValidity("Please enter a valid email address with a supported domain.");
-                } else {
-                    emailInput.setCustomValidity(""); // Reset validation message
-                }}
-    
-     </script>
-     
-     <script>
-        const ageInput = document.getElementById("age");
-        const submitButton = document.querySelector("input[type='submit']");
-        submitButton.addEventListener("click", (event) => {
-          event.preventDefault();
-          const age = parseInt(ageInput.value);
-          if (isNaN(age)) {
-            alert("Please enter a valid age.");
-            return;
-          }
-          if (age < 18) {
-            alert("You must be at least 18 years old to use this website.");
-            return;
-          }
-          // The user is old enough to use the website.
-        });
-      </script>
+            var emailInput = document.getElementById("email");
+            var email = emailInput.value;
+            var domain = email.split("@")[1];
+            var validDomains = ["gmail.com", "yahoo.com", "hotmail.com"]; // Add your desired valid domains here
 
-    <!--script>
-        function validatephone(){
-        var phoneNumberInput = document.getElementById("phone");
-        var phoneNumber = phoneNumberInput.value;
-        console.log(phoneNumber);
+            if (!validDomains.includes(domain)) {
+                emailInput.setCustomValidity("Please enter a valid email address with a supported domain.");
+            } else {
+                emailInput.setCustomValidity(""); // Reset validation message
+            }
+        }
 
-        // Check if the phone number is a valid length
-        if (phoneNumber.length !== 11) {
-            console.log("if1");
-        phoneNumberInput.setCustomValidity("Enter a valid phone number");
-        }
-        // Check if the phone number starts with a valid area code
-        const areaCode = phoneNumber.substring(0, 3);
-        if (!areaCode.match(/^[2-9]\d{2}$/)) {
-            console.log("if2");
-            phoneNumberInput.setCustomValidity("Enter a valid phone number");
-        }
-        // Check if the phone number has a valid prefix
-        const prefix = phoneNumber.substring(3, 6);
-        if (!prefix.match(/^[2-9]\d{2}$/)) {
-            phoneNumberInput.setCustomValidity("Enter a valid phone number");
-        }
-        // Check if the phone number has a valid suffix
-        const suffix = phoneNumber.substring(6, 10);
-        if (!suffix.match(/^[2-9]\d{4}$/)) {
-            phoneNumberInput.setCustomValidity("Enter a valid phone number");
-        }
-        // The phone number is valid
-        phoneNumberInput.setCustomValidity("");
-    }
-    </script-->
+    </script>
 </body>
 
 </html>

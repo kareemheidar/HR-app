@@ -123,7 +123,7 @@ def signin(request):
             
             
             context = {
-                #'background_image': background_image,
+                'background_image': background_images.objects.first().account,
                 'status':status,
                 'message':message,
                 'job_description':job_description,
@@ -177,7 +177,11 @@ def apply(request):
         vjob.save()
         cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,)
         cand.save()
-        return render(request, 'Homepage.html')
+    background_image = background_images.objects.first().thank_you
+    context = {
+        'background_image': background_image
+    }
+    return render(request, 'thankyou.html', context)
 
 
 def get_job_by_id(request, job_id):
