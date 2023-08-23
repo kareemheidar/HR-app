@@ -12,5 +12,6 @@ urlpatterns = [
     path('apply', views.apply, name='apply'),
     path('get_job/<int:job_id>/', views.get_job_by_id, name='get_job_by_id'),
     path('aboutus', views.aboutus, name='aboutus'),
-    #path('get_status', views.get_status, name='get_status')
+    #path('get_status', views.get_status, name='get_status'),
+    path('forget', views.forgetpassword, name='forget'),
 ]
