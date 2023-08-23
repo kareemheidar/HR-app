@@ -171,6 +171,60 @@ def get_job_by_id(request, job_id):
     return JsonResponse(job_data)
 
 
+"""def my_view(request):
+    """
+    #This view renders an HTML page with a div element. The border color of the div element will be red if the user has not seen or read it.
+"""
+
+    div_id = "my-div"
+
+    # Get the current user
+    user = request.user
+
+    # Check if the user has seen or read the div element
+    has_seen_or_read_div = False
+
+    # If the user has not seen or read the div element, set the border color to red
+    if not has_seen_or_read_div:
+        css_border_color = "red"
+    else:
+        pass
+
+    # Render the HTML page
+    return render(request, "status.html", {
+        "div_id": div_id,
+        "css_border_color": css_border_color
+    })"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def register_candidate(modeladmin, request,queryset):
 #     for candidate in queryset:
 #         if candidate.username is not None and candidate.password is not None:

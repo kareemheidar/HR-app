@@ -1,21 +1,23 @@
 {% load static %}
 <html>
+
 <head>
-<title>Candidate Profile</title>
-<link href="{% static 'status.css'%}" rel="stylesheet" type="text/css" media="all"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-<link href="{% static 'css/font-awesome.css'%}" rel="stylesheet"> 
-<link href="{% static '//fonts.googleapis.com/css?family=Gudea:400,700'%}" rel='stylesheet' type='text/css'>
+    <title>Candidate Profile</title>
+    <link href="{% static 'status.css'%}" rel="stylesheet" type="text/css" media="all" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="{% static 'css/font-awesome.css'%}" rel="stylesheet">
+    <link href="{% static '//fonts.googleapis.com/css?family=Gudea:400,700'%}" rel='stylesheet' type='text/css'>
 
 </head>
+
 <body>
     <!--profile start here-->
     <h1>Madkour Group</h1>
     <div class="profile">
-        <div class="wrap"  >
-           <div class="profile-main" style="background-image: url('{% static 'backPic.jpg' %}');" >
+        <div class="wrap">
+            <div class="profile-main" style="background-image: url('{% static 'backPic.jpg' %}');">
                 <div class="profile-pic wthree">
                     <button data-text="Awesome" class="button">
                         <span class="actual-text">&nbsp;Madkour&nbsp;</span>
@@ -43,17 +45,19 @@
                         <div class="clear"> </div>
                     </div>
                 </div>
-                <div class="w3ls-touch">
+
+                <div class="message">
                     <h5>Messages</h5>
                     <div class="social">
                         <p>{{message}}</p>
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
     <!--profile end here-->
-    
-    </body>
-    </html>
+
+</body>
+
+</html>

@@ -3,6 +3,7 @@ from .models import candidate, human_resources, job, candidate_account, departme
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.conf import settings
 
 # Register your models here.
 
@@ -20,11 +21,11 @@ def register_candidate(modeladmin, request, queryset): #to allow candidate to lo
             newuser.last_name = candidate.lname
             newuser.save()
             
-            subject="Welcome to Madkour Group"
+            """subject="Welcome to Madkour Group"
             message= f'Hello {newuser.first_name} , Here is your username and password to access our recruitment site. /n username = {username} /n Password= {password}'
             from_email='madkourGP@gmail.com'
             recipient_list=[email]
-            send_mail(subject,message,from_email,recipient_list,fail_silently=False)
+            send_mail(subject,message,from_email,recipient_list,fail_silently=False)"""
         else:
             messages.error(request, 'Insert Username & Password')
 
