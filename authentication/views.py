@@ -8,7 +8,8 @@ from django.db.models import QuerySet
 import json
 from datetime import datetime
 from django.core.serializers.json import DjangoJSONEncoder
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 
 # Create your views here.
@@ -19,6 +20,26 @@ def home(request):
     }
     return render(request, 'Homepage.html', context)
 
+def aboutus(request):
+    return render(request, 'aboutus.html')
+
+def forgetpassword(request):
+    if(request.method == 'POST'):
+        email = request.POST['email']
+        user = candidate.objects.get(email=email)
+        password = user.password
+
+        email = EmailMessage(
+                'Welcome to Madkour Group',
+                'Your password is: ' + password + '\n' + 'Please login using the following link http://127.0.0.1:8000/login.',
+                settings.EMAIL_HOST_USER,
+                [email],
+        )
+        email.fail_silently = False
+        email.send()
+        messages.success(request, 'Your password has been sent to your email')
+        return render(request, 'Login.html')
+    return render(request, 'forgetpass.html')
 
 def jobs(request):
     # get all jobs that are active

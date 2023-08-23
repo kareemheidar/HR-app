@@ -113,7 +113,22 @@ a:visited {
 }
 button {
   cursor: pointer;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 0px 0px;
 }
 button:hover {
-  background-color: #0056b3;
+  background-color: #232946;
+  color: #ffffff;
+  
+}
+
+.brief {
+  max-width: 500px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  font-weight: 300;
+  font-size: 14px;
 }

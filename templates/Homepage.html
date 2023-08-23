@@ -9,7 +9,7 @@
     <title>Madkour Homepage</title>
     <link rel="StyleSheet" type="text/css" href="{% static 'Homepage.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 </head>
@@ -17,27 +17,34 @@
 <body style="background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('{{ background_image }}');">
     <nav>
         <ul class="logo">
-            <a href="/"><li><image src="{% static 'logo1.png' %}"></image></li></a>
+            <a href="/">
+                <li>
+                    <image src="{% static 'logo1.png' %}"></image>
+                </li>
+            </a>
             {% if user.is_authenticated %}
-            <li id="login-btn"><a href="/logout"><i class="fa-solid fa-right-from-bracket" style="margin-right: 5px;"></i> Logout</a></li>
+            <li id="login-btn"><a href="/logout"><i class="fa-solid fa-right-from-bracket"
+                        style="margin-right: 5px;"></i> Logout</a></li>
             {% else %}
-            <li id="login-btn"><a href="/login"><i class="fa-solid fa-right-to-bracket" style="margin-right: 5px;"></i> Login</a></li>
+            <li id="login-btn"><a href="/login"><i class="fa-solid fa-right-to-bracket" style="margin-right: 5px;"></i>
+                    Login</a></li>
             {% endif %}
         </ul>
     </nav>
     <div class="content">
         {% if user.is_authenticated %}
         <h1 style="font-weight: 500;">Welcome {{ fname }}</h1>
-        {% else %}        
+        {% else %}
         <p> your way to excellence - Madkour Group</p>
         <h1 style="font-weight: 500;">Madkour Group</h1>
         <a href="/jobs">
             <button class="Jobs" type="button" style="cursor: pointer;">Explore Jobs</button>
         </a>
-        <button class="Jobs" type="button" style="cursor: pointer;"><a href="/addCand">About Us</a></button>
+        <a href="https://madkour.com.eg/">
+            <button class="Jobs" type="button" style="cursor: pointer;">About Us</button>
+        </a>
         {% endif %}
     </div>
-
 </body>
 
 <!--script type="text/javascript">

@@ -1,5 +1,5 @@
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Nunito", sans-serif;
   color: #232946;
   margin: 0%;
   background-color: white;
@@ -196,7 +196,7 @@ button:hover {
 }
 
 .job-card-header {
-  margin-top: 100px;
+  margin-top: 20px;
   margin-bottom: 50px;
 }
 
@@ -207,6 +207,7 @@ button:hover {
 .job-card-header h1 {
   font-weight: 500;
   margin-top: 50px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .job-card-header h2 {
@@ -217,6 +218,7 @@ hr {
   width: 70%;
   margin: auto;
   margin-bottom: 50px;
+  margin-top: 30px;
   opacity: 0.5;
 }
 
@@ -224,10 +226,11 @@ hr {
   font-weight: 500;
   margin-bottom: 20px;
   font-size: larger;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #jobdiv p {
-  font-weight: 200;
+  font-weight: 400;
   margin-bottom: 50px;
   font-size: medium;
   width: 90%;
@@ -241,4 +244,17 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.block2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-align: start;
+  font-size: 0.9rem;
+  font-weight: 300;
+  padding-top: 1rem;
+  min-width: 150px;
+  margin-left: 2rem;
 }
