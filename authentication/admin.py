@@ -69,12 +69,12 @@ class BackgroundImagesAdmin(admin.ModelAdmin):
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):
-    fields = ('cv','fname','address','military_status','phone','dob','cand_status','email','jobID','password', 'username', 'age','Note')
-    list_display = ('fname','cv','cand_status','Note')  #to display column 
+    fields = ('cv','fname', 'lname','address','military_status','phone','dob','cand_status','email','jobID','password', 'username', 'age','Note')
+    list_display = ('fname','lname','cv','cand_status',)  #to display column 
     list_display_links=('fname',)
-    list_editable=('cand_status','Note')  
+    list_editable=('cand_status',)  
     list_filter=('cand_status',)
-    search_fields=('fname','dob')
+    search_fields=('fname','lname','email','dob')
     actions = [register_candidate]
 
     

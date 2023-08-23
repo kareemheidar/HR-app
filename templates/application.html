@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 </head>
 
 <body style="background-image: url('{{ background_image }}');">
@@ -103,17 +105,21 @@
 
             var jobCard = `
             <div class="job-card-header">
+                <img src="{% static 'logo1.png' %}" alt="job image" />
                 <h1>${job.title}</h1>
-                <h2>Madkour</h2>
+                <p>${job.category}</p>
                 <hr />
             </div>
             <div class="job-card-body">
                 <h3>Job Description</h3>
                 <p>${job.description}</p>
-                </div>
-            <div class="job-card-footer">
-                <h3>Job Category</h3>
-                <p>${job.category}</p>
+                <hr />
+            </div>
+
+            <div class="block2">
+                <p><i class="far fa-calendar-alt" style="margin-right: 5px;"></i> ${job.date_posted}</p>
+                <p><i class="fa fa-money-bills" style="margin-right: 5px;"></i> ${job.salary}</p>
+                <p><i class="fa-solid fa-earth-americas" style="margin-right: 5px;"></i> ${job.location}<span style="font-weight: 800; font-size: 18px;"> · </span> ${job.work_arrangement}</p>
             </div>
             `;
             jobdiv.innerHTML += jobCard;

@@ -19,6 +19,8 @@ def home(request):
     }
     return render(request, 'Homepage.html', context)
 
+def aboutus(request):
+    return render(request, 'aboutus.html')
 
 def jobs(request):
     # get all jobs that are active
