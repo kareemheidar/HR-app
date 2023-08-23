@@ -28,8 +28,9 @@ def register_candidate(modeladmin, request, queryset): #to allow candidate to lo
             send_mail(subject,message,from_email,recipient_list,fail_silently=False)"""
         else:
             messages.error(request, 'Insert Username & Password')
-
-
+            
+    
+    
 @admin.register(human_resources) 
 class human_resources(admin.ModelAdmin):
     pass
@@ -59,13 +60,24 @@ class BackgroundImagesAdmin(admin.ModelAdmin):
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):
-    fields = ('cv','fname','address','military_status','phone','dob','cand_status','email','jobID','password', 'username', 'age','Note')
-    list_display = ('fname','cv','cand_status','Note')  #to display column 
+    fields = ('cv','fname','address','military_status','phone','dob','cand_status','email','jobID','password', 'username', 'age','Note','title','To_Candidate')
+    list_display = ('fname','title','cv','cand_status','Note','To_Candidate')  #to display column 
     list_display_links=('fname',)
-    list_editable=('cand_status','Note')  
+    list_editable=('cand_status','Note','To_Candidate')  
     list_filter=('cand_status',)
     search_fields=('fname','dob')
     actions = [register_candidate]
+    def title(self, obj):
+        return obj.jobID.title
+    
+    
+    
+""" def title():
+       ID= candidate.jobID
+       title = job.objects.get(jobID=ID)
+       return title"""
+    
+       
 
     
 
