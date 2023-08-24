@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from .models import candidate_account, candidate, job, department, background_images
-from .forms import candidate_account
+from .models import candidate_account, candidate, job, department, background_images , CV
+from .forms import candidate_account,CVForm, VenueForm, EventForm
 from django.contrib import messages
 from django.db.models import QuerySet
 import json
@@ -10,6 +10,15 @@ from datetime import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import os
+import csv
+from django.http import FileResponse
+import io
+from reportlab.pdfgen import canvas 
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
 
 
 # Create your views here.
@@ -173,9 +182,10 @@ def apply(request):
         vjobid = request.POST['jobID']
         vjob = job.objects.get( jobID = vjobid)
         vage = age_calculator(vdob)
+        vtitle=vjob.title
         vjob.applicants_count = vjob.applicants_count + 1
         vjob.save()
-        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,)
+        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
         cand.save()
         return render(request, 'Homepage.html')
 
@@ -190,6 +200,102 @@ def get_job_by_id(request, job_id):
         'category': jjob.depID.depName,
     }
     return JsonResponse(job_data)
+
+
+def CG(request): #TUTORIAL
+    return render(request, 'CG.html')
+
+
+def Viewstatus(request): #TUTORIAL
+    return render(request,'status.html')
+
+
+def CV_pdf(request):
+    buf = io.BytesIO()
+    c= canvas.Canvas(buf,pagesize=letter,bottomup=0)
+    textob = c.beginText()
+    textob.setTextOrigin(inch,inch)
+    textob.setFont("Helvetica",14)
+
+    CVs=CV.objects.all()
+    
+    lines=[]
+    
+    for CV in CVs:
+        lines.append(CV.University)
+        lines.append(CV.Major)
+        lines.append(CV.Education)
+        lines.append(CV.LinkedIn)
+        lines.append(CV.Work_Experience)
+        lines.append(CV.SoftSkill)
+        lines.append(CV.TechSkill)
+        lines.append(CV.AddNote)
+                
+    
+    for CV in CVs:
+        textob.textLine(line)
+        
+    c.drawText(textob)
+    c.showPage()
+    c.save()
+    buf.seek(0)
+    
+    return FileResponse(buf , as_attachment=True,filename='cv.pdf')
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+"""def CV_Generator(request):
+   if request.method == 'POST':
+        form = CVForm(request.POST)
+        print("start")
+        if form.is_valid():
+            cv_data = form.cleaned_data
+            print("saved in DB")
+
+            # Save the CV data to the database
+            cv = CV.objects.create(
+                University=cv_data['Uni'],
+                Major=cv_data['Major'],
+                Education=cv_data['Education'],
+                LinkedIn=cv_data['Acc'],
+                Work_Experience=cv_data['Work_experience'],
+                SoftSkill=cv_data['Sskill'],
+                TechSkill=cv_data['Tskill'],
+                AddNote=cv_data['skills']
+            )
+            print("Entered")
+
+            # Generate the CV PDF
+            template = get_template('CG.html')
+            context = {'cv': cv}
+            html = template.render(context)
+            pdf_file = f'cv_{cv.id}.pdf'  # Unique filename based on CV ID
+            pdf_path = os.path.join('D:\HR-app\media\cvs', pdf_file)
+            with open(pdf_path, 'w+b') as file:
+                pisa.CreatePDF(html, dest=file)
+
+            # Save the PDF file path to the database
+            cv.pdf_file = pdf_path
+            candidate.save()
+
+            return HttpResponse('CV generated and saved successfully.')
+        else:
+            form = CVForm()
+            
+
+        return render(request, 'CG.html', {'form': form})"""
+
+
 
 
 """def my_view(request):

@@ -50,11 +50,17 @@ class candidate(models.Model):
     address = models.CharField(max_length=255)
     email = models.EmailField()
     jobID = models.ForeignKey('job', on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, default='none')
     username = models.CharField(max_length=30, null=True, blank=True)
     password = models.CharField(max_length=30, null=True, blank=True) 
     age = models.IntegerField(default=0) 
     Note = models.TextField(null=True, blank=True) 
     To_Candidate = models.TextField(null=True, blank=True)
+    
+    """def title():
+        ID= candidate.jobID
+        JOB=job.objects.get(jobID=ID)
+        """
     
     class Meta:
         db_table = 'candidate'
@@ -146,3 +152,25 @@ class background_images(models.Model):
 
     class Meta:
         db_table = 'background_images'
+        
+
+class CV(models.Model):
+    University= models.TextField()
+    Major= models.TextField()
+    Education =models.TextField()
+    LinkedIn=models.URLField()
+    Work_Experience=models.TextField()
+    SoftSkill=models.TextField()
+    TechSkill=models.TextField()
+    AddNote=models.TextField()
+    pdf_file=models.URLField()
+    
+    def __str__(self):
+        return self.full_name
+    
+    class Meta:
+        db_table = 'CVGen'
+    
+    
+    
+    

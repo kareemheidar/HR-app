@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import candidate, human_resources, job, candidate_account, department, background_images
+from .models import candidate, human_resources, job, candidate_account, department, background_images,CV
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -70,15 +70,19 @@ class BackgroundImagesAdmin(admin.ModelAdmin):
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):
-    fields = ('cv','fname','address','military_status','phone','dob','cand_status','email','jobID','password', 'username', 'age','Note','title','To_Candidate')
-    list_display = ('fname','title','cv','cand_status','Note','To_Candidate')  #to display column 
-    list_display_links=('fname',)
-    list_editable=('cand_status','Note','To_Candidate') 
-    list_filter=('cand_status',)
+    fields = ('cv','fname', 'lname','address','military_status','phone','dob', 'age','cand_status','email','title','jobID','password', 'username','Note','To_Candidate')
+    list_display = ('email','fname', 'lname','title','cv','cand_status')  #to display column 
+    list_display_links=('email',)
+    list_filter=('cand_status','title')
     search_fields=('fname','lname','email','dob')
     actions = [register_candidate]
-    def title(self, obj):
-        return obj.jobID.title
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ['fname', 'lname', 'address', 'phone', 'dob', 'email', 'jobID', 'age', 'cand_status', 'military_status', 'cv','title']
+        else:
+            return []
+    """def title(self, obj):
+        return obj.jobID.title"""
     
     
     
