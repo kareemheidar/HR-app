@@ -50,6 +50,7 @@ class candidate(models.Model):
     address = models.CharField(max_length=255)
     email = models.EmailField()
     jobID = models.ForeignKey('job', on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, default='none')
     username = models.CharField(max_length=30, null=True, blank=True)
     password = models.CharField(max_length=30, null=True, blank=True) 
     age = models.IntegerField(default=0) 

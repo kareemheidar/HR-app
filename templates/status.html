@@ -14,38 +14,37 @@
 
 <body>
     <!--profile start here-->
-    <h1>Madkour Group</h1>
     <div class="profile">
         <div class="wrap">
             <div class="profile-main" style="background-image: url('{% static 'backPic.jpg' %}');">
                 <div class="profile-pic wthree">
-                    <button data-text="Awesome" class="button">
-                        <span class="actual-text">&nbsp;Madkour&nbsp;</span>
-                        <span class="hover-text" aria-hidden="true">&nbsp;Madkour&nbsp;</span>
-                    </button>
-                    <h2>{{fname}}</h2>
-                    <!--p>Web Designer</p-->
+                    <img src="{% static 'pfp.jpeg' %}" alt="profile picture" />
+                    <h2>{{fname}} {{lname}}</h2>
+                    <p>{{email}}</p>
                 </div>
-                <div class="w3-message">
-                    <h5>Applied job : {{job_title}}</h5>
-                    <p>{{job_description}}</p>
-                    <div class="wthree_tab_grid_sub">
-                        <!--div class="wthree_tab_grid_sub_left">
-                            <h5>321</h5>
-                            <p>Tweets</p>
-                        </div-->
-                        <div class="wthree_tab_grid_sub_left">
-                            <h5>CV Status</h5>
-                            <p>{{status}}</p>
-                        </div>
-                        <!--div class="wthree_tab_grid_sub_left">
-                            <h5>123</h5>
-                            <p>Following</p>
-                        </div-->
-                        <div class="clear"> </div>
+                <div class="div_opener">
+                    <button class="btn" id="btn1" onclick="showDiv(1)">My Profile</button>
+                    <button class="btn" id="btn2" onclick="showDiv(2)">Application Status</button>
+                    <button class="btn" id="btn3" onclick="showDiv(3)">Applied Job</button>
+                </div>
+                <!-- create a a footer here with the company logo and name -->
+                <div class="footer">
+                    <div class="footer-text">
+                        <p>© 2023 Madkour Group. All rights reserved | <a href="http://madkour.com.eg">Madkour</a></p>
                     </div>
                 </div>
 
+            </div>
+            <div class="display_data" id="1" style="display: none;">
+                dfssf
+            </div>
+            <div class="display_data" id="2" style="display: none;">
+                <div class="message">
+                    <h5>Status</h5>
+                    <div class="social">
+                        <p>Your application is {{status}}</p>
+                    </div>
+                </div>
                 <div class="message">
                     <h5>Messages</h5>
                     <div class="social">
@@ -53,11 +52,44 @@
                     </div>
                 </div>
             </div>
-
+            <div class="display_data" id="3" style="display: none;">
+                <div class="message">
+                    <h5>Job Title</h5>
+                    <div class="block1">
+                        <h2 style="margin-bottom: 0px; ">{{title}}</h2>
+                        <p style="margin-top: 2px; color: #444;">{{category}}</p>
+                    </div>
+                </div>
+                <div class="message">
+                    <h5>Job Description</h5>
+                    <div class="social">
+                        <p>{{description}}</p>
+                    </div>
+            </div>
         </div>
-    </div>
-    <!--profile end here-->
 
+        <script>
+            function showDiv(id) {
+                var divs = document.getElementsByClassName('display_data');
+                for (var i = 0; i < divs.length; i++) {
+                    if (divs[i].id == id) {
+                        divs[i].style.display = 'block';
+                    } else {
+                        divs[i].style.display = 'none';
+                    }
+                }
+
+                var buttons = document.getElementsByClassName('btn');
+                for (var i = 0; i < buttons.length; i++) {
+                    if (buttons[i].id == 'btn' + id) {
+                        buttons[i].classList.add('active');
+                    } else {
+                        buttons[i].classList.remove('active');
+                    }
+                }
+            }
+            showDiv(1);
+        </script>
 </body>
 
 </html>

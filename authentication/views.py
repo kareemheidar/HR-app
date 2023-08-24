@@ -20,6 +20,36 @@ def home(request):
     }
     return render(request, 'Homepage.html', context)
 
+def temp(request):
+    # create dummy data for a candidate and his job application
+    context = {
+        'fname': 'Ahmed',
+        'lname': 'Mohamed',
+        'email': 'ahmedmohamed@gmail.com',
+        'address': 'Cairo, Egypt',
+        'military_status': 'Exempted',
+        'status': 'on stack',
+        'message': 'We are sorry to inform you that you have been put on stack. We will contact you if a suitable position is available.',
+        'phone': '01234567890',
+        'dob': '1998-01-01',
+        'age': 25,
+        'cv': 'cv.pdf',
+        'jobID': 1,
+        'title': 'Software Engineer',
+        'description': 'Develops information systems by designing, developing, and installing software solutions.',
+        'category': 'Information Technology',
+        'applicants_count': 10,
+        'years_of_experience': 2,
+        'work_arrangement': 'Full Time',
+        'location': 'Cairo',
+        'salary': 10000,
+        'date_posted': '2021-01-01',
+        'level': 'Entry Level',
+
+
+    }
+    return render(request, 'status.html', context)
+
 def aboutus(request):
     return render(request, 'aboutus.html')
 
@@ -112,29 +142,59 @@ def signin(request):
         background_image = background_images.objects.first().login
         if user is not None:
             login(request, user)
-            cand = candidate.objects.get(email= user.email)
-            fname=cand.fname
+            cand = candidate.objects.get(email=user.email)
+            fname = cand.fname
+            lname = cand.lname
+            email = cand.email
+            address = cand.address
+            military_status = cand.military_status
+            phone = cand.phone
+            dob = cand.dob
+            age = cand.age
+            cv = cand.cv
+
             status = cand.cand_status
-            message=cand.Note
+            message = cand.To_Candidate
             job_id = cand.jobID_id
             jobx = job.objects.get(jobID=job_id)
-            job_title= jobx.title
-            job_description=jobx.description
-            
-            
+
             context = {
                 'background_image': background_images.objects.first().account,
-                'status':status,
-                'message':message,
-                'job_description':job_description,
-                'job_title' :job_title,
-                'fname':fname
+                'status': status,
+                'message': message,
+                'fname': fname,
+                'lname': lname,
+                'email': email,
+                'address': address,
+                'military_status': military_status,
+                'phone': phone,
+                'dob': dob,
+                'age': age,
+                'cv': cv,
+                'jobID': jobx.jobID,
+                'title': jobx.title,
+                'description': jobx.description,
+                'category': jobx.depID.depName,
+                'applicants_count': jobx.applicants_count,
+                'years_of_experience': jobx.years_of_experience,
+                'work_arrangement': jobx.work_arrangement,
+                'location': jobx.location,
+                'salary': jobx.salary,
+                'date_posted': jobx.date_posted.strftime('%Y-%m-%d'),
+                'level': jobx.level,
             }
             return render(request, 'status.html', context)
             
         else:
-            messages.error(request, 'Username or Password is incorrect')
-            return render(request, 'jobs.html')
+            # Check if username or password is invalid
+            try:
+                user = candidate.objects.get(username=username)
+                if password != user.password:
+                    messages.error(request, 'Invalid Password')
+                else:
+                    messages.error(request, 'User does not exist')
+            except candidate.DoesNotExist:
+                messages.error(request, 'User does not exist')            
     return render(request, 'Login.html')
 
 def signout(request):
@@ -173,9 +233,10 @@ def apply(request):
         vjobid = request.POST['jobID']
         vjob = job.objects.get( jobID = vjobid)
         vage = age_calculator(vdob)
+        vtitle = vjob.title
         vjob.applicants_count = vjob.applicants_count + 1
         vjob.save()
-        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,)
+        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage, title=vtitle)
         cand.save()
     background_image = background_images.objects.first().thank_you
     context = {

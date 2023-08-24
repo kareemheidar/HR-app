@@ -38,8 +38,25 @@ def register_candidate(modeladmin, request, queryset): #to allow candidate to lo
             email.send()
         else:
             messages.error(request, 'Insert Username & Password')
+
+def notify_candidate(candidate):
+    if candidate.cand_status == 'accepted':
+        message = 'We are pleased to inform you that you have been accepted. Please login to your account to learn more.'
+    elif candidate.cand_status == 'rejected':
+        message = 'We are sorry to inform you that you have been rejected. Please login to your account to learn more.'
+    elif candidate.cand_status == 'on stack':
+        message = 'We are sorry to inform you that you have been put on stack. Please login to your account to learn more.'
+    else:
+        return
+    email = EmailMessage(
+        'Welcome to Madkour Group',
+        'Dear '+ candidate.fname + ' ' + candidate.lname + ',\n' + message,
+        settings.EMAIL_HOST_USER,
+        [candidate.email],
+    )
+    email.fail_silently = False
+    email.send()
             
-    
     
 @admin.register(human_resources) 
 class human_resources(admin.ModelAdmin):
@@ -72,15 +89,29 @@ class BackgroundImagesAdmin(admin.ModelAdmin):
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):
-    fields = ('cv','fname','address','military_status','phone','dob','cand_status','email','jobID','password', 'username', 'age','Note','title','To_Candidate')
-    list_display = ('fname','title','cv','cand_status','Note','To_Candidate')  #to display column 
-    list_display_links=('fname',)
-    list_editable=('cand_status','Note','To_Candidate') 
-    list_filter=('cand_status',)
+    fields = ('cv','fname', 'lname','address','military_status','phone','dob', 'age','cand_status','email','title','jobID','password', 'username','Note','To_Candidate')
+    list_display = ('email','fname', 'lname','title','cv','cand_status')  #to display column 
+    list_editable = ('cand_status',)
+    list_display_links=('email',)
+    list_filter=('cand_status','title')
     search_fields=('fname','lname','email','dob')
     actions = [register_candidate]
-    def title(self, obj):
-        return obj.jobID.title
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ['fname', 'lname', 'address', 'phone', 'dob', 'email', 'jobID', 'age', 'military_status', 'cv', 'title']
+        else:
+            return []
+        
+    # check if the status is changed
+    def save_model(self, request, obj, form, change):
+        if change:
+            if obj.cand_status != form.initial['cand_status']:
+                notify_candidate(obj)
+        obj.save()
+    
+                
+
+        
     
     
     
