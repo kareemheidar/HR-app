@@ -122,7 +122,7 @@ button {
 button:hover {
   background-color: #232946;
   color: #ffffff;
-  
+
 }
 
 .brief {
@@ -131,4 +131,19 @@ button:hover {
   margin-bottom: 50px;
   font-weight: 300;
   font-size: 14px;
+}
+
+
+.thanks {
+  background-color: #fafafa;
+  padding: 50px 20px 20px 20px;
+  margin: 20px 0;
+  border-radius: 20px;
+  color: #232946;
+  max-width: 500px;
+  text-align: center;
+  margin: auto auto;
+  margin-top: 200px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }

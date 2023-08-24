@@ -47,8 +47,10 @@ class human_resources(admin.ModelAdmin):
 
 @admin.register(job)
 class JobAdmin(admin.ModelAdmin):
-    fields=('title','description','depName','depID','HR_code','applicants_count','level','work_arrangement','salary', 'years_of_experience', 'location')
-    list_display = ('title', 'depName','applicants_count')
+    fields=('title','description','depName','depID','HR_code','applicants_count','level','work_arrangement','salary', 'years_of_experience', 'location', 'is_active')
+    list_display = ('title', 'depName','applicants_count', 'is_active')
+    list_editable = ('is_active',)
+    list_filter = ('is_active', 'depName', 'level', 'work_arrangement', 'location', 'salary', 'years_of_experience')
     
     
 
