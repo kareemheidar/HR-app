@@ -15,4 +15,8 @@ urlpatterns = [
     #path('get_status', views.get_status, name='get_status'),
     path('forget', views.forgetpassword, name='forget'),
     path('temp', views.temp, name='temp'),
+    #path('CV_Generator',views.CV_Generator,name='CV_Generator'),
+    path('Viewstatus',views.Viewstatus,name='Viewstatus'),
+    #path('CGT',views.CG,name='CGT') #TUTORIAL,
+    path('venue_pdf', views.venue_pdf,name='venue_pdf')
 ]
