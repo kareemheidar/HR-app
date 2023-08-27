@@ -17,6 +17,7 @@ urlpatterns = [
     path('temp', views.temp, name='temp'),
     #path('CV_Generator',views.CV_Generator,name='CV_Generator'),
     path('status',views.Viewstatus,name='status'),
-    #path('CGT',views.CG,name='CGT') #TUTORIAL,
+    path('CGT',views.CG,name='CGT'), #TUTORIAL
+    path('CV_pdf',views.CV_pdf,name='CV_pdf'),
     # path('venue_pdf', views.venue_pdf,name='venue_pdf')
 ]

@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from .models import candidate_account, candidate, job, department, background_images , CV
+from .models import candidate_account, candidate, job, department, background_images , resume
 from .forms import candidate_account, CVForm
 from django.contrib import messages
 from django.db.models import QuerySet
@@ -16,9 +16,10 @@ import os
 import csv
 from django.http import FileResponse
 import io
-from reportlab.pdfgen import canvas 
-from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
 
 
 # Create your views here.
@@ -112,9 +113,6 @@ def jobs(request):
     }
     return render(request, 'jobs.html', context)
 
-
-
-
 def application(request):
     # get all jobs that are active
     jobs = job.objects.filter(is_active=True)
@@ -185,7 +183,6 @@ def addCand(request):
         candAcc.save()
         return render(request, 'Homepage.html')
     
-
 def age_calculator(dob):
     today = datetime.today()
     dob = datetime.strptime(dob, '%Y-%m-%d')
@@ -215,7 +212,6 @@ def apply(request):
     }
     return render(request, 'thankyou.html', context)
 
-
 def get_job_by_id(request, job_id):
     print('get_job_by_id')
     print("ENTERED GET JOB BY ID")
@@ -228,8 +224,12 @@ def get_job_by_id(request, job_id):
     return JsonResponse(job_data)
 
 
-# def CG(request): #TUTORIAL
-#     return render(request, 'CG.html')
+def CG(request): #TUTORIAL
+    background_image = background_images.objects.first().homepage
+    context = {
+        'background_image': background_image
+    }
+    return render(request, 'CG.html', context)
 
 
 def Viewstatus(request): 
@@ -278,6 +278,52 @@ def Viewstatus(request):
     }
     return render(request,'status.html', context)
 
+
+def create_pdf(data):
+    pdf_filename = f'{data["University"]}_resume.pdf'
+
+    doc = SimpleDocTemplate(pdf_filename, pagesize=letter)
+    styles = getSampleStyleSheet()
+    story = []
+
+    story.append(Paragraph('Resume Details', styles['Title']))
+    story.append(Spacer(1, 12))
+
+    for field, value in data.items():
+        story.append(Paragraph(f'<b>{field}:</b> {value}', styles['Normal']))
+        story.append(Spacer(1, 6))
+
+    doc.build(story)
+
+    return pdf_filename
+
+def CV_pdf(request):
+    if request.method == 'POST':
+        vuniversity = request.POST.get('University')
+        vexperience = request.POST.get('Education')
+        vsskills = request.POST.get('Sskill')
+        vtskills = request.POST.get('Tskill')
+        vwork_experience = request.POST.get('Work_experience')
+        vlinkedin = request.POST.get('Acc')
+        vmajor = request.POST.get('Major')
+
+        data = {
+            'University': vuniversity,
+            'Experience': vexperience,
+            'Soft_Skills': vsskills,
+            'Tech_Skills': vtskills,
+            'Major': vmajor,
+            'Work_Experience': vwork_experience,
+            'LinkedIn': vlinkedin,
+        }
+
+        # Save data to the 'resume' model
+        pdf_filename = create_pdf(data)
+        res = resume(pdf_file=pdf_filename,University=vuniversity, Major=vmajor, Education=vexperience, LinkedIn=vlinkedin, Work_Experience=vwork_experience, SoftSkill=vsskills, TechSkill=vtskills)
+        res.save()
+        messages.success(request, 'Resume submitted successfully.')
+        return render(request, 'thankyou.html')  # Replace with your success page URL
+    return render(request, 'CG.html')  # Replace with your template name
 
 # def CV_pdf(request):
 #     buf = io.BytesIO()

@@ -14,7 +14,7 @@
 
 </head>
 
-<body style="background-image: url('{{ background_image }}');">
+<body style="background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('{{ background_image }}');">
     <div class="app-container">
         <div id="form">
             {%csrf_token%}
@@ -30,7 +30,7 @@
                         <div class="form-group">
                             <label for="University">University:</label>
                             <div class="twin-inputs">
-                                <input class="twin-inputs-first" type="text" id="Uni" name="Uni"
+                                <input class="twin-inputs-first" type="text" id="Uni" name="University"
                                     placeholder="University" required>
                             </div>
                             <label id="label_major"  for="Major">Major:</label> 
