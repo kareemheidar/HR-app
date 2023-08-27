@@ -9,10 +9,34 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="{% static 'css/font-awesome.css'%}" rel="stylesheet">
     <link href="{% static '//fonts.googleapis.com/css?family=Gudea:400,700'%}" rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="StyleSheet" type="text/css" href="{% static 'Homepage.css' %}">
+
+
 
 </head>
 
-<body>
+<body style="background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('{{ background_image }}');">
+    <nav>
+        <ul class="logo">
+            <a href="/">
+                <li>
+                    <image src="{% static 'logo1.png' %}"></image>
+                </li>
+            </a>
+            {% if user.is_authenticated %}
+            <li id="login-btn"><a href="/logout"><i class="fa-solid fa-right-from-bracket"
+                        style="margin-right: 5px;"></i> Logout</a></li>
+            {% if not user.is_staff %}
+            <li id="login-btn"><a href="/status" style="color: #006FBA; background-color: white; border-radius: 5px;"><i class="fa fa-user-circle" style="margin-right: 5px;"></i>
+                    Profile</a></li>
+            {% endif %}
+            {% else %}
+            <li id="login-btn"><a href="/login"><i class="fa-solid fa-right-to-bracket" style="margin-right: 5px;"></i>
+                    Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
     <!--profile start here-->
     <div class="profile">
         <div class="wrap">
@@ -30,13 +54,38 @@
                 <!-- create a a footer here with the company logo and name -->
                 <div class="footer">
                     <div class="footer-text">
-                        <p>© 2023 Madkour Group. All rights reserved | <a href="http://madkour.com.eg">Madkour</a></p>
+                        <p>© 2023 Madkour Group. All rights reserved | <a href="http://madkour.com.eg"
+                                style="color: blue;">Madkour</a></p>
                     </div>
                 </div>
 
             </div>
             <div class="display_data" id="1" style="display: none;">
-                dfssf
+                <div class="message">
+                    <h5>Personal Information</h5>
+                    <div class="social">
+                        <p style="padding-top: 8px;"><span style="font-weight: 600;"> First Name: </span>{{fname}}</p>
+                        <p style="padding-top: 8px;"><span style="font-weight: 600;"> Last Name: </span>{{lname}}</p>
+                        <p style="padding-top: 8px;"><span style="font-weight: 600;"> Date of Birth: </span>{{dob}}</p>
+                        <p style="padding-top: 8px;"><span style="font-weight: 600;"> Military Status:
+                            </span>{{military_status}}</p>
+                    </div>
+                </div>
+                <div class="message">
+                    <h5>Contact Information</h5>
+                    <div class="social">
+                        <p style="padding-top: 8px;"><span style="font-weight: 600;"> Email: </span>{{email}}</p>
+                        <p style="padding-top: 8px;"><span style="font-weight: 600;"> Phone Number: </span>{{phone}}</p>
+                        <p style="padding-top: 8px;"><span style="font-weight: 600;"> Address: </span>{{address}}</p>
+                    </div>
+                </div>
+                <div class="message">
+                    <h5>Resume</h5>
+                    <div class="social">
+                        <p style="padding-top: 8px;"><span style="font-weight: 600;"> Resume: </span><a
+                                href="/media/{{cv}}">Download</a></p>
+                    </div>
+                </div>
             </div>
             <div class="display_data" id="2" style="display: none;">
                 <div class="message">
@@ -55,9 +104,9 @@
             <div class="display_data" id="3" style="display: none;">
                 <div class="message">
                     <h5>Job Title</h5>
-                    <div class="block1">
-                        <h2 style="margin-bottom: 0px; ">{{title}}</h2>
-                        <p style="margin-top: 2px; color: #444;">{{category}}</p>
+                    <div class="social">
+                        <p style="margin-bottom: 0px; ">{{title}}</p>
+                        <p style="margin-top: 2px;">{{category}}</p>
                     </div>
                 </div>
                 <div class="message">
@@ -65,31 +114,49 @@
                     <div class="social">
                         <p>{{description}}</p>
                     </div>
+                </div>
+                <div class="message">
+                    <h5>Job Details</h5>
+                    <div class="social">
+                        <div class="block2">
+                            <p style="padding-top: 8px;"><i class="far fa-calendar-alt" style="margin-right: 5px;"></i>
+                                <span style="font-weight: 600;"> Posted on: </span>{{date_posted}}
+                            </p>
+                            <p style="padding-top: 8px;"><i class="fa fa-money-bills" style="margin-right: 5px;"></i>
+                                <span style="font-weight: 600;"> Base Salary: </span>{{salary}} L.E
+                            </p>
+                            <p style="padding-top: 5px;"><i class="fa-solid fa-earth-americas"
+                                    style="margin-right: 5px;"></i><span style="font-weight: 600;"> Location: </span>
+                                {{location}}<span
+                                    style="font-weight: 800; font-size: 18px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                                    · </span> {{work_arrangement}}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <script>
-            function showDiv(id) {
-                var divs = document.getElementsByClassName('display_data');
-                for (var i = 0; i < divs.length; i++) {
-                    if (divs[i].id == id) {
-                        divs[i].style.display = 'block';
-                    } else {
-                        divs[i].style.display = 'none';
+            <script>
+                function showDiv(id) {
+                    var divs = document.getElementsByClassName('display_data');
+                    for (var i = 0; i < divs.length; i++) {
+                        if (divs[i].id == id) {
+                            divs[i].style.display = 'block';
+                        } else {
+                            divs[i].style.display = 'none';
+                        }
+                    }
+
+                    var buttons = document.getElementsByClassName('btn');
+                    for (var i = 0; i < buttons.length; i++) {
+                        if (buttons[i].id == 'btn' + id) {
+                            buttons[i].classList.add('active');
+                        } else {
+                            buttons[i].classList.remove('active');
+                        }
                     }
                 }
-
-                var buttons = document.getElementsByClassName('btn');
-                for (var i = 0; i < buttons.length; i++) {
-                    if (buttons[i].id == 'btn' + id) {
-                        buttons[i].classList.add('active');
-                    } else {
-                        buttons[i].classList.remove('active');
-                    }
-                }
-            }
-            showDiv(1);
-        </script>
+                showDiv(1);
+            </script>
 </body>
 
 </html>

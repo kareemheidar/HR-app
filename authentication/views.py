@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from .models import candidate_account, candidate, job, department, background_images , CV
-from .forms import candidate_account,CVForm, VenueForm, EventForm
+from .forms import candidate_account, CVForm
 from django.contrib import messages
 from django.db.models import QuerySet
 import json
@@ -151,48 +151,10 @@ def signin(request):
         background_image = background_images.objects.first().login
         if user is not None:
             login(request, user)
-            cand = candidate.objects.get(email=user.email)
-            fname = cand.fname
-            lname = cand.lname
-            email = cand.email
-            address = cand.address
-            military_status = cand.military_status
-            phone = cand.phone
-            dob = cand.dob
-            age = cand.age
-            cv = cand.cv
-
-            status = cand.cand_status
-            message = cand.To_Candidate
-            job_id = cand.jobID_id
-            jobx = job.objects.get(jobID=job_id)
-
             context = {
-                'background_image': background_images.objects.first().account,
-                'status': status,
-                'message': message,
-                'fname': fname,
-                'lname': lname,
-                'email': email,
-                'address': address,
-                'military_status': military_status,
-                'phone': phone,
-                'dob': dob,
-                'age': age,
-                'cv': cv,
-                'jobID': jobx.jobID,
-                'title': jobx.title,
-                'description': jobx.description,
-                'category': jobx.depID.depName,
-                'applicants_count': jobx.applicants_count,
-                'years_of_experience': jobx.years_of_experience,
-                'work_arrangement': jobx.work_arrangement,
-                'location': jobx.location,
-                'salary': jobx.salary,
-                'date_posted': jobx.date_posted.strftime('%Y-%m-%d'),
-                'level': jobx.level,
+                'background_image': background_images.objects.first().homepage,
             }
-            return render(request, 'status.html', context)
+            return redirect('home') 
             
         else:
             # Check if username or password is invalid
@@ -266,45 +228,88 @@ def get_job_by_id(request, job_id):
     return JsonResponse(job_data)
 
 
-def CG(request): #TUTORIAL
-    return render(request, 'CG.html')
+# def CG(request): #TUTORIAL
+#     return render(request, 'CG.html')
 
 
-def Viewstatus(request): #TUTORIAL
-    return render(request,'status.html')
+def Viewstatus(request): 
+    # get the current user
+    user = request.user
+    # get the candidate object of the current user
+    cand = candidate.objects.get(email=user.email)
+    # get the job object of the candidate
+    jobx = job.objects.get(jobID=cand.jobID_id)
+    status = cand.cand_status
+    message = cand.To_Candidate
+    fname = cand.fname
+    lname = cand.lname
+    email = cand.email
+    address = cand.address
+    military_status = cand.military_status
+    phone = cand.phone
+    dob = cand.dob
+    age = cand.age
+    cv = cand.cv
+
+    context = {
+        'background_image': background_images.objects.first().account,
+        'status': status,
+        'message': message,
+        'fname': fname,
+        'lname': lname,
+        'email': email,
+        'address': address,
+        'military_status': military_status,
+        'phone': phone,
+        'dob': dob,
+        'age': age,
+        'cv': cv,
+        'jobID': jobx.jobID,
+        'title': jobx.title,
+        'description': jobx.description,
+        'category': jobx.depID.depName,
+        'applicants_count': jobx.applicants_count,
+        'years_of_experience': jobx.years_of_experience,
+        'work_arrangement': jobx.work_arrangement,
+        'location': jobx.location,
+        'salary': jobx.salary,
+        'date_posted': jobx.date_posted.strftime('%Y-%m-%d'),
+        'level': jobx.level,
+    }
+    return render(request,'status.html', context)
 
 
-def CV_pdf(request):
-    buf = io.BytesIO()
-    c= canvas.Canvas(buf,pagesize=letter,bottomup=0)
-    textob = c.beginText()
-    textob.setTextOrigin(inch,inch)
-    textob.setFont("Helvetica",14)
+# def CV_pdf(request):
+#     buf = io.BytesIO()
+#     c= canvas.Canvas(buf,pagesize=letter,bottomup=0)
+#     textob = c.beginText()
+#     textob.setTextOrigin(inch,inch)
+#     textob.setFont("Helvetica",14)
 
-    CVs=CV.objects.all()
+#     CVs=CV.objects.all()
     
-    lines=[]
+#     lines=[]
     
-    for CV in CVs:
-        lines.append(CV.University)
-        lines.append(CV.Major)
-        lines.append(CV.Education)
-        lines.append(CV.LinkedIn)
-        lines.append(CV.Work_Experience)
-        lines.append(CV.SoftSkill)
-        lines.append(CV.TechSkill)
-        lines.append(CV.AddNote)
+#     for CV in CVs:
+#         lines.append(CV.University)
+#         lines.append(CV.Major)
+#         lines.append(CV.Education)
+#         lines.append(CV.LinkedIn)
+#         lines.append(CV.Work_Experience)
+#         lines.append(CV.SoftSkill)
+#         lines.append(CV.TechSkill)
+#         lines.append(CV.AddNote)
                 
     
-    for CV in CVs:
-        textob.textLine(line)
+#     for CV in CVs:
+#         textob.textLine(line)
         
-    c.drawText(textob)
-    c.showPage()
-    c.save()
-    buf.seek(0)
+#     c.drawText(textob)
+#     c.showPage()
+#     c.save()
+#     buf.seek(0)
     
-    return FileResponse(buf , as_attachment=True,filename='cv.pdf')
+#     return FileResponse(buf , as_attachment=True,filename='cv.pdf')
         
         
 
