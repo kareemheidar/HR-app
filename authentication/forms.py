@@ -1,5 +1,5 @@
 from django import forms
-from .models import candidate_account, candidate,human_resources,CandCV
+from .models import candidate_account, candidate,human_resources,resume
 
 class candAccountForm(forms.ModelForm):
     class Meta:
@@ -25,5 +25,8 @@ class candidate_account(forms.ModelForm):
         
 class CVForm(forms.ModelForm):
     class Meta:
-        model = CandCV
+        model = resume
         fields = ('University','Major','Education','LinkedIn','Work_Experience','SoftSkill','TechSkill','AddNote')
+        
+        
+        

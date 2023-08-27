@@ -411,3 +411,40 @@ a.brand-logo {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
   }
+
+
+  /* Style for the messages container */
+.messages {
+    margin-top: 10px;
+}
+
+/* Style for each individual message */
+.message {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Styles for different message types (e.g., success, error, warning) */
+.message.success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+}
+
+.message.error {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+
+.message.warning {
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    color: #8a6d3b;
+}
+
+/* You can define similar styles for other message types */

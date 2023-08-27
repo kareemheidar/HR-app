@@ -39,7 +39,7 @@ class candidate(models.Model):
     gender = models.CharField(
         max_length=6,
         choices=GENDER_CHOICES,
-        default='male'
+        default='none'
     )
 
     cv = models.FileField(upload_to='cvs/%Y-%m-%d/')
@@ -92,17 +92,6 @@ class department(models.Model):
         db_table = 'department'
 
 
-# class job(models.Model):
-#     jobID = models.AutoField(primary_key=True)
-#     title = models.CharField(max_length=60)
-#     description = models.TextField()
-#     depID = models.ForeignKey('department', on_delete=models.CASCADE)
-#     HR_code = models.ForeignKey('human_resources', on_delete=models.CASCADE)
-#     applicants_count = models.IntegerField(default=0)
-    
-#     class Meta:
-#         db_table = 'job'
-
 class job(models.Model):
     LEVEL_CHOICES = [
         ('Entry', 'Entry'),
@@ -154,7 +143,7 @@ class background_images(models.Model):
         db_table = 'background_images'
         
 
-class CandCV(models.Model):
+class resume(models.Model):
     University= models.TextField()
     Major= models.TextField()
     Education =models.TextField()
@@ -168,7 +157,7 @@ class CandCV(models.Model):
         return self.full_name"""
     
     class Meta:
-        db_table = 'CVGen'
+        db_table = 'resume'
     
     
     
