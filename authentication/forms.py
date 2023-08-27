@@ -23,7 +23,3 @@ class candidate_account(forms.ModelForm):
         model = candidate_account       
         fields = ('candID','username','password')
         
-class CVForm(forms.ModelForm):
-    class Meta:
-        model = resume
-        fields = ('University','Major','Education','LinkedIn','Work_Experience','SoftSkill','TechSkill','AddNote')

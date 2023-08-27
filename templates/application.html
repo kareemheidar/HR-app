@@ -25,69 +25,121 @@
                 <div class="elform">
                     <form action="/apply" method="POST" id="application-form" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <input type="hidden" name="jobID" id="jobID">
-                        <div class="form-group">
-                            <label for="first-name">Name:</label>
-                            <div class="twin-inputs">
-                                <input class="twin-inputs-first" type="text" id="fname" name="fname"
-                                    placeholder="First Name" required>
-                                <input type="text" id="lname" name="lname" placeholder="Last Name" required>
+                        <div id="part1">
+                            <div class="fields">
+                                <input type="hidden" name="jobID" id="jobID">
+                                <div class="form-group">
+                                    <label for="first-name">Name:</label>
+                                    <div class="twin-inputs">
+                                        <input class="twin-inputs-first" type="text" id="fname" name="fname"
+                                            placeholder="First Name" required>
+                                        <input type="text" id="lname" name="lname" placeholder="Last Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group2">
+                                    <div class="minigroup">
+                                    <label for="work-email">Work Email:</label>
+                                    <input type="email" id="email" name="email" placeholder="example@gmail.com" required
+                                        oninput="validateEmail()">
+                                    </div>
+                                        <p id="email-error" style="color: red; display: none; padding: 0 5px 0 5px; margin-bottom: 0px;">Invalid email format</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Address:</label>
+                                    <textarea id="address" name="address" placeholder="123, Bridge St. NY"
+                                        required></textarea>
+                                </div>
+
+                                <div class="form-group2">
+                                    <div class="minigroup">
+                                        <label for="phone">Phone Number:</label>
+                                        <input type="tel" id="phone" name="phone" placeholder="01234567890" oninput="validatePhone()" required
+                                            pattern="[0-9]{4}[0-9]{3}[0-9]{4}">
+                                    </div>
+                                    <p id="phone-error" style="color: red; display: none; padding: 0 5px 0 5px; margin-bottom: 0px;">Invalid phone format</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth:</label>
+                                    <input type="date" id="dob" name="dob" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Military Status:</label>
+                                    <div class="radios">
+                                        <div class="radio-square">
+                                            <label for="completed"><input id="completed" type="radio"
+                                                    name="military_status" />
+                                                Completed</label>
+                                        </div>
+                                        <div class="radio-square">
+                                            <label for="not-completed"><input id="not-completed" type="radio"
+                                                    name="military_status" />
+                                                Not Completed</label>
+                                        </div>
+                                        <div class="radio-square">
+                                            <label for="exempted"><input id="exempted" type="radio"
+                                                    name="military_status" />
+                                                Exempted</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cv">Upload CV:</label>
+                                    <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx">
+                                </div>
+                            </div>
+                            <div class="next-btn">
+                                <button id="next-btn" onclick="next(event)">Next</button>
                             </div>
                         </div>
-
-                        <!--div class="form-group">
-                            <label for="work-email">Work Email:</label>
-                            <input type="email" id="work-email" name="email" placeholder="example@gmail.com"
-                                required>
-                        </div-->
-                        <div class="form-group">
-                            <label for="work-email">Work Email:</label>
-                            <input type="email" id="email" name="email" placeholder="example@gmail.com" required
-                                oninput="validateEmail()">
-                            <!--small>Please enter a valid email address with a supported domain (e.g., gmail.com, yahoo.com, hotmail.com).</small-->
-                        </div>
-
-                        <div class="form-group">
-                            <label for="address">Address:</label>
-                            <textarea id="address" name="address" placeholder="123, Bridge St. NY" required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">Phone Number:</label>
-                            <input type="tel" id="phone" name="phone" placeholder="01234567890" required
-                                pattern="[0-9]{4}[0-9]{3}[0-9]{4}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dob">Date of Birth:</label>
-                            <input type="date" id="dob" name="dob" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Military Status:</label>
-                            <div class="radios">
-                                <div class="radio-square">
-                                    <label for="completed"><input id="completed" type="radio" name="military_status" />
-                                        Completed</label>
+                        <div id="part2">
+                            <div class="fields">
+                                <div class="form-group">
+                                    <label for="University">University & Major:</label>
+                                    <div class="twin-inputs">
+                                        <input class="twin-inputs-first" type="text" id="Uni" name="University"
+                                            placeholder="University">
+                                        <input type="text" id="Major" name="Major" placeholder="Major">
+                                    </div>
                                 </div>
-                                <div class="radio-square">
-                                    <label for="not-completed"><input id="not-completed" type="radio"
-                                            name="military_status" />
-                                        Not Completed</label>
+                                <div class="form-group">
+                                    <label for="Education">Education:</label>
+                                    <input type="text" id="Education" name="Education"
+                                        placeholder="your highest degree">
                                 </div>
-                                <div class="radio-square">
-                                    <label for="exempted"><input id="exempted" type="radio" name="military_status" />
-                                        Exempted</label>
+                                <div class="form-group">
+                                    <label for="Work_experience">Experience:</label>
+                                    <textarea id="Work_experience" name="Work_experience"
+                                        placeholder="Tell us about your Work experience"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cv">Extracurricular Activities:</label>
+                                    <textarea id="Extracurricular" name="Extracurricular"
+                                    placeholder="Tell us about your extracurricular activities"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Acc">LinkedIn Account:</label>
+                                    <input type="text" id="Acc" name="Acc"
+                                        placeholder="Paste your LinkedIn account link">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Sskill">Soft Skills:</label>
+                                    <input type="text" id="Sskill" name="Sskill"
+                                        placeholder="Time management , communication , Team work...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Tskill">Technical Skills:</label>
+                                    <input type="text" id="Tskill" name="Tskill"
+                                    placeholder="Agile Methodology, Scrum, Project Management...">
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="cv">Upload CV:</label>
-                            <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
-                        </div>
-
-                        <button type="submit">Submit</button>
+                            <div class="prev-submit-btn">
+                                <button onclick="prev(event)">Back</button>
+                                <button type="submit">Submit</button>
+                            </div>
                     </form>
                 </div>
             </div>
@@ -140,18 +192,66 @@
                 radioButton.checked = true;
             });
         });
+
+        function next(event) {
+            event.preventDefault();
+            var part1 = document.getElementById("part1");
+            var part2 = document.getElementById("part2");
+            part1.style.display = "none";
+            part2.style.display = "block";
+        }
+
+        function prev(event) {
+            event.preventDefault();
+            var part1 = document.getElementById("part1");
+            var part2 = document.getElementById("part2");
+            part1.style.display = "block";
+            part2.style.display = "none";
+        }
     </script>
     <script>
         function validateEmail() {
             var emailInput = document.getElementById("email");
+            nextBtn = document.getElementById("next-btn");
+            var emailError = document.getElementById('email-error');
             var email = emailInput.value;
             var domain = email.split("@")[1];
             var validDomains = ["gmail.com", "yahoo.com", "hotmail.com"]; // Add your desired valid domains here
 
             if (!validDomains.includes(domain)) {
                 emailInput.setCustomValidity("Please enter a valid email address with a supported domain.");
+                emailError.style.display = "block";
+                nextBtn.disabled = true;
+                nextBtn.style.backgroundColor = "#ccc";
+                nextBtn.style.cursor = "not-allowed";
+
             } else {
                 emailInput.setCustomValidity(""); // Reset validation message
+                emailError.style.display = "none";
+                nextBtn.disabled = false;
+                nextBtn.style.backgroundColor = "#007bff";
+                nextBtn.style.cursor = "pointer";
+            }
+        }
+
+        function validatePhone() {
+            var phoneInput = document.getElementById("phone");
+            var phone = phoneInput.value;
+            var phoneError = document.getElementById('phone-error');
+            var nextBtn = document.getElementById("next-btn");
+            var pattern = new RegExp("[0-9]{4}[0-9]{3}[0-9]{4}");
+            if (!pattern.test(phone)) {
+                phoneInput.setCustomValidity("Please enter a valid phone number.");
+                phoneError.style.display = "block";
+                nextBtn.disabled = true;
+                nextBtn.style.backgroundColor = "#ccc";
+                nextBtn.style.cursor = "not-allowed";
+            } else {
+                phoneInput.setCustomValidity(""); // Reset validation message
+                phoneError.style.display = "none";
+                nextBtn.disabled = false;
+                nextBtn.style.backgroundColor = "#007bff";
+                nextBtn.style.cursor = "pointer";
             }
         }
 

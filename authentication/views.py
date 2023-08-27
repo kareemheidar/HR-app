@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from .models import candidate_account, candidate, job, department, background_images , resume
-from .forms import candidate_account, CVForm
+from .forms import candidate_account
 from django.contrib import messages
 from django.db.models import QuerySet
 import json
@@ -19,7 +19,7 @@ import io
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 
 # Create your views here.
@@ -199,13 +199,51 @@ def apply(request):
         vdob = request.POST['dob']
         vcv = request.FILES.get('cv')
         vjobid = request.POST['jobID']
+        vuniversity = request.POST.get('University')
+        vexperience = request.POST.get('Education')
+        vsskills = request.POST.get('Sskill')
+        vtskills = request.POST.get('Tskill')
+        vwork_experience = request.POST.get('Work_experience')
+        vlinkedin = request.POST.get('Acc')
+        vmajor = request.POST.get('Major')
+        vextracurricular = request.POST.get('Extracurricular')
         vjob = job.objects.get( jobID = vjobid)
         vage = age_calculator(vdob)
         vtitle=vjob.title
         vjob.applicants_count = vjob.applicants_count + 1
         vjob.save()
-        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
-        cand.save()
+
+        data = {
+            'First Name': vfname,
+            'Last Name': vlname,
+            'Address': vaddress,
+            'Email': vemail,
+            'Military Status': vmilitary_status,
+            'Phone': vphone,
+            'Date of Birth': vdob,
+            'Age': vage,
+            'University': vuniversity,
+            'Experience': vexperience,
+            'Soft Skills': vsskills,
+            'Tech Skills': vtskills,
+            'Major': vmajor,
+            'Work Experience': vwork_experience,
+            'Extracurricular Activities': vextracurricular,
+            'LinkedIn': vlinkedin,
+        }
+
+        # Save data to the 'resume' model
+        pdf_filename = create_pdf(data)
+        res = resume(pdf_file=pdf_filename,University=vuniversity, Major=vmajor, Education=vexperience, LinkedIn=vlinkedin, Work_Experience=vwork_experience, SoftSkill=vsskills, TechSkill=vtskills, ExtraCurricular=vextracurricular)
+        res.save()
+
+        if vcv is None:
+            cand = candidate(cv=pdf_filename, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
+            cand.save()
+        else:
+            cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
+            cand.save()
+
     background_image = background_images.objects.first().thank_you
     context = {
         'background_image': background_image
@@ -280,22 +318,23 @@ def Viewstatus(request):
 
 
 def create_pdf(data):
-    pdf_filename = f'{data["University"]}_resume.pdf'
+    pdf_filename = f'{data["First Name"]}_resume.pdf'
+    pdf_file_path = os.path.join(settings.MEDIA_ROOT, 'resumes', pdf_filename)
 
-    doc = SimpleDocTemplate(pdf_filename, pagesize=letter)
+    doc = SimpleDocTemplate(pdf_file_path, pagesize=letter)
     styles = getSampleStyleSheet()
     story = []
-
+    custom_style = ParagraphStyle(name='CustomNormal', parent=styles['Normal'], fontSize=14)
     story.append(Paragraph('Resume Details', styles['Title']))
     story.append(Spacer(1, 12))
 
     for field, value in data.items():
-        story.append(Paragraph(f'<b>{field}:</b> {value}', styles['Normal']))
-        story.append(Spacer(1, 6))
+        story.append(Paragraph(f'<b>{field}:</b> {value}', custom_style))
+        story.append(Spacer(1, 10))
 
     doc.build(story)
 
-    return pdf_filename
+    return pdf_file_path
 
 def CV_pdf(request):
     if request.method == 'POST':
@@ -306,20 +345,22 @@ def CV_pdf(request):
         vwork_experience = request.POST.get('Work_experience')
         vlinkedin = request.POST.get('Acc')
         vmajor = request.POST.get('Major')
+        vextracurricular = request.POST.get('Extracurricular')
 
         data = {
             'University': vuniversity,
             'Experience': vexperience,
-            'Soft_Skills': vsskills,
-            'Tech_Skills': vtskills,
+            'Soft Skills': vsskills,
+            'Tech Skills': vtskills,
             'Major': vmajor,
-            'Work_Experience': vwork_experience,
+            'Work Experience': vwork_experience,
+            'Extracurricular Activities': vextracurricular,
             'LinkedIn': vlinkedin,
         }
 
         # Save data to the 'resume' model
         pdf_filename = create_pdf(data)
-        res = resume(pdf_file=pdf_filename,University=vuniversity, Major=vmajor, Education=vexperience, LinkedIn=vlinkedin, Work_Experience=vwork_experience, SoftSkill=vsskills, TechSkill=vtskills)
+        res = resume(pdf_file=pdf_filename,University=vuniversity, Major=vmajor, Education=vexperience, LinkedIn=vlinkedin, Work_Experience=vwork_experience, SoftSkill=vsskills, TechSkill=vtskills, ExtraCurricular=vextracurricular)
         res.save()
         messages.success(request, 'Resume submitted successfully.')
         return render(request, 'thankyou.html')  # Replace with your success page URL

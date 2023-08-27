@@ -153,6 +153,7 @@ class resume(models.Model):
     TechSkill=models.TextField()
     AddNote=models.TextField()
     pdf_file=models.URLField()
+    ExtraCurricular=models.TextField(default='none')
     
     def __str__(self):
         return self.full_name

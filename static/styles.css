@@ -25,6 +25,22 @@ body {
   width: 100%;
 }
 
+.form-group2 {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  width: 100%;
+}
+
+.minigroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 
 .twin-inputs {
   display: flex;
@@ -97,6 +113,17 @@ input[type="radio"] {
   width: 100%;
 }
 
+.next-btn {
+  display: flex;
+  justify-content: end;
+}
+
+.prev-submit-btn {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 button {
   background-color: #007bff;
   color: #ffffff;
@@ -105,6 +132,7 @@ button {
   padding: 8px 20px;
   cursor: pointer;
   font-size: 16px;
+  width: 20%;
 }
 
 button:hover {
@@ -257,4 +285,15 @@ hr {
   padding-top: 1rem;
   min-width: 150px;
   margin-left: 2rem;
+}
+
+.fields {
+  min-height: 470px;
+}
+#part1 {
+  display: block; 
+}
+
+#part2 {
+  display: none;
 }
