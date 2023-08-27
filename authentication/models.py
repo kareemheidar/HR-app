@@ -39,7 +39,7 @@ class candidate(models.Model):
     gender = models.CharField(
         max_length=6,
         choices=GENDER_CHOICES,
-        default='male'
+        default='none'
     )
 
     cv = models.FileField(upload_to='cvs/%Y-%m-%d/')
@@ -155,8 +155,8 @@ class resume(models.Model):
     pdf_file=models.URLField()
     ExtraCurricular=models.TextField(default='none')
     
-    def __str__(self):
-        return self.full_name
+    """def __str__(self):
+        return self.full_name"""
     
     class Meta:
         db_table = 'resume'

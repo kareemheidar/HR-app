@@ -481,33 +481,6 @@ def CV_pdf(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # def register_candidate(modeladmin, request,queryset):
 #     for candidate in queryset:
 #         if candidate.username is not None and candidate.password is not None:
@@ -538,9 +511,6 @@ def CV_pdf(request):
     return render(request,'status.html',context)"""
     
     
-
-
-
 # def apply(request):
 #     if request.method == "POST":
 #         print('first if')

@@ -1,5 +1,5 @@
 from django import forms
-from .models import candidate_account, candidate,human_resources, resume
+from .models import candidate_account, candidate,human_resources,resume
 
 class candAccountForm(forms.ModelForm):
     class Meta:
