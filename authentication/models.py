@@ -154,7 +154,7 @@ class background_images(models.Model):
         db_table = 'background_images'
         
 
-class CV(models.Model):
+class CandCV(models.Model):
     University= models.TextField()
     Major= models.TextField()
     Education =models.TextField()
@@ -163,10 +163,9 @@ class CV(models.Model):
     SoftSkill=models.TextField()
     TechSkill=models.TextField()
     AddNote=models.TextField()
-    pdf_file=models.URLField()
     
-    def __str__(self):
-        return self.full_name
+    """def __str__(self):
+        return self.full_name"""
     
     class Meta:
         db_table = 'CVGen'

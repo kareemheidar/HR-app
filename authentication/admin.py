@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import candidate, human_resources, job, candidate_account, department, background_images,CV
+from .models import candidate, human_resources, job, candidate_account, department, background_images,CandCV
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.mail import EmailMessage

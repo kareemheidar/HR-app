@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from .models import candidate_account, candidate, job, department, background_images , CV
-from .forms import candidate_account,CVForm, VenueForm, EventForm
+from .models import candidate_account, candidate, job, department, background_images,CandCV
+from .forms import candidate_account
 from django.contrib import messages
 from django.db.models import QuerySet
 import json
@@ -211,40 +211,53 @@ def CG(request): #TUTORIAL
 
 
 def Viewstatus(request): #TUTORIAL
+
     return render(request,'status.html')
 
 
-def CV_pdf(request):
-    buf = io.BytesIO()
-    c= canvas.Canvas(buf,pagesize=letter,bottomup=0)
-    textob = c.beginText()
-    textob.setTextOrigin(inch,inch)
-    textob.setFont("Helvetica",14)
+def assign():
+    return CandCV
 
-    CVs=CV.objects.all()
+def CV_pdf(request):
     
-    lines=[]
-    
-    for CV in CVs:
-        lines.append(CV.University)
-        lines.append(CV.Major)
-        lines.append(CV.Education)
-        lines.append(CV.LinkedIn)
-        lines.append(CV.Work_Experience)
-        lines.append(CV.SoftSkill)
-        lines.append(CV.TechSkill)
-        lines.append(CV.AddNote)
-                
-    
-    for CV in CVs:
-        textob.textLine(line)
+    if request.method == "POST":
         
-    c.drawText(textob)
-    c.showPage()
-    c.save()
-    buf.seek(0)
+        XUni = request.POST['Uni']
+        XMajor = request.POST['Major']
+        XEducation = request.POST['Education']
+        Xwork = request.POST['Work_experience']
+        Xacc = request.POST['Acc']
+        XSskill = request.POST['Sskill']
+        XTskill = request.POST['Tskill']
+        CVC = CandCV(University=XUni, Major=XMajor, Education=XEducation, Work_Experience=Xwork, LinkedIn=Xacc, SoftSkill=XSskill, TechSkill=XTskill)
+        CVC.save()
+        
+        
+        buf = io.BytesIO()
+        c= canvas.Canvas(buf,pagesize=letter,bottomup=0)
+        textob = c.beginText()
+        textob.setTextOrigin(inch,inch)
+        textob.setFont("Helvetica",14)
+        
+        lines=[]
+        
+        lines.append(XUni)
+        lines.append(XMajor)
+        lines.append(XEducation)
+        lines.append(Xwork)
+        lines.append(Xacc)
+        lines.append(XSskill)
+        lines.append(XTskill)
+
+        textob.textLine(lines)
+            
+        c.drawText(textob)
+        c.showPage()
+        c.save()
+        buf.seek(0)
     
-    return FileResponse(buf , as_attachment=True,filename='cv.pdf')
+    return FileResponse(request,buf , as_attachment=True,filename='cv.pdf')
+    return render(request,'CG.html')
         
         
 
@@ -329,33 +342,6 @@ def CV_pdf(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # def register_candidate(modeladmin, request,queryset):
 #     for candidate in queryset:
 #         if candidate.username is not None and candidate.password is not None:
@@ -386,9 +372,6 @@ def CV_pdf(request):
     return render(request,'status.html',context)"""
     
     
-
-
-
 # def apply(request):
 #     if request.method == "POST":
 #         print('first if')
