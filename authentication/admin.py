@@ -1,10 +1,13 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from .models import candidate, human_resources, job, candidate_account, department, background_images,resume
-from django.contrib.auth.models import User,Group 
+from django.contrib.auth.models import User, Group 
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
+from django import forms
+
+
 
 
 # Register your models here.
@@ -122,17 +125,31 @@ class BackgroundImagesAdmin(admin.ModelAdmin):
     
     
     
-    
+class CustomCandForm(forms.ModelForm):
+    class Meta:
+        model = candidate
+        fields = '__all__'
+        widgets = {
+            'password': forms.HiddenInput(),  # Set the widget for password field
+        }
+
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):
-    fields = ('cv','fname', 'lname','address','military_status','phone','dob', 'age','cand_status','email','title','jobID','password', 'username','Note','To_Candidate')
+    fields = ('cv','fname', 'lname','address','military_status','phone','dob', 'age','cand_status','email','title','jobID','username','password','Note','To_Candidate')
     list_display = ('email','fname', 'lname','title','cv','cand_status')  #to display column 
     list_editable = ('cand_status',)
     list_display_links=('email',)
     list_filter=('cand_status','title')
     search_fields=('fname','lname','email','dob')
     actions = [register_candidate]
+
+    def get_form(self, request, obj=None, **kwargs):
+        if request.user.groups.filter(name='viewer').exists():
+            print('viewer')
+            return CustomCandForm
+        return super().get_form(request, obj, **kwargs)
+
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return ['fname', 'lname', 'address', 'phone', 'dob', 'email', 'jobID', 'age', 'military_status', 'cv', 'title']
@@ -145,7 +162,6 @@ class candAdmin(admin.ModelAdmin):
             if obj.cand_status != form.initial['cand_status']:
                 notify_candidate(obj)
         obj.save()
-
    
         
         

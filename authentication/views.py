@@ -20,7 +20,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -172,7 +172,7 @@ def signout(request):
     context = {
         'background_image': background_image
     }
-    return render(request, 'Homepage.html', context)
+    return redirect('home') 
 
 def addCand(request):
     if(request.method == 'POST'):
@@ -269,7 +269,7 @@ def CG(request): #TUTORIAL
     }
     return render(request, 'CG.html', context)
 
-
+@login_required
 def Viewstatus(request): 
     # get the current user
     user = request.user
