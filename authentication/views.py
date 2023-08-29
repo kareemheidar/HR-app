@@ -208,11 +208,11 @@ def apply(request):
         vmajor = request.POST.get('Major')
         vextracurricular = request.POST.get('Extracurricular')
         vjob = job.objects.get( jobID = vjobid)
+        vdep = department.objects.get(depID = vjob.depID_id)
         vage = age_calculator(vdob)
         vtitle=vjob.title
         vjob.applicants_count = vjob.applicants_count + 1
         vjob.save()
-
         data = {
             'First Name': vfname,
             'Last Name': vlname,
@@ -238,10 +238,10 @@ def apply(request):
         res.save()
 
         if vcv is None:
-            cand = candidate(cv=pdf_filename, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
+            cand = candidate(cv=pdf_filename, fname=vfname, lname=vlname, jobID=vjob, depID=vdep, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
             cand.save()
         else:
-            cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
+            cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, depID=vdep, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
             cand.save()
 
     background_image = background_images.objects.first().thank_you

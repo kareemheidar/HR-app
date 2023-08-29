@@ -50,6 +50,7 @@ class candidate(models.Model):
     address = models.CharField(max_length=255)
     email = models.EmailField()
     jobID = models.ForeignKey('job', on_delete=models.CASCADE)
+    depID = models.ForeignKey('department', on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, default='none')
     username = models.CharField(max_length=30, null=True, blank=True)
     password = models.CharField(max_length=30, null=True, blank=True) 
@@ -80,6 +81,9 @@ class human_resources(models.Model):
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
 
+    def __str__(self):
+        return self.username
+
     class Meta:
         db_table = 'human_resources'
 
@@ -87,7 +91,9 @@ class human_resources(models.Model):
 class department(models.Model):
     depID = models.AutoField(primary_key=True)
     depName = models.CharField(max_length=30)
-
+    jobs_count = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return self.depName
     class Meta:
         db_table = 'department'
 
@@ -124,6 +130,9 @@ class job(models.Model):
     HR_code = models.ForeignKey('human_resources', on_delete=models.CASCADE)
     date_posted = models.DateTimeField(default=datetime.now, blank=True)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = 'job'

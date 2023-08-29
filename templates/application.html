@@ -70,17 +70,17 @@
                                     <div class="radios">
                                         <div class="radio-square">
                                             <label for="completed"><input id="completed" type="radio"
-                                                    name="military_status" />
+                                                    name="military_status" value="completed" />
                                                 Completed</label>
                                         </div>
                                         <div class="radio-square">
                                             <label for="not-completed"><input id="not-completed" type="radio"
-                                                    name="military_status" />
+                                                    name="military_status" value="not completed" />
                                                 Not Completed</label>
                                         </div>
                                         <div class="radio-square">
                                             <label for="exempted"><input id="exempted" type="radio"
-                                                    name="military_status" />
+                                                    name="military_status" value="exempted" />
                                                 Exempted</label>
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@
             var emailError = document.getElementById('email-error');
             var email = emailInput.value;
             var domain = email.split("@")[1];
-            var validDomains = ["gmail.com", "yahoo.com", "hotmail.com"]; // Add your desired valid domains here
+            var validDomains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"]; // Add your desired valid domains here
 
             if (!validDomains.includes(domain)) {
                 emailInput.setCustomValidity("Please enter a valid email address with a supported domain.");

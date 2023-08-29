@@ -6,6 +6,8 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 from django import forms
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 
 
@@ -14,6 +16,15 @@ from django import forms
 
 admin.site.site_header = "Admin Panel"
 admin.site.site_title = "HR Admin Panel"
+
+@receiver(post_save, sender=job)
+@receiver(post_delete, sender=job)
+def update_jobs_count(sender, instance, **kwargs):
+    department_id = instance.depID_id
+    dep = department.objects.get(pk=department_id)
+    dep.jobs_count = job.objects.filter(depID_id=department_id).count()
+    dep.save()
+
 
 
 def notify_candidate(candidate):
@@ -94,22 +105,22 @@ class human_resources(admin.ModelAdmin):
 
 @admin.register(job)
 class JobAdmin(admin.ModelAdmin):
-    fields=('title','description','depName','depID','HR_code','applicants_count','level','work_arrangement','salary', 'years_of_experience', 'location', 'is_active')
-    list_display = ('title', 'depName','applicants_count', 'is_active')
+    fields=('title','description','depID','HR_code','applicants_count','level','work_arrangement','salary', 'years_of_experience', 'location', 'is_active')
+    list_display = ('title', 'depID','applicants_count', 'is_active')
     list_editable = ('is_active',)
-    list_filter = ('is_active', 'depName', 'level', 'work_arrangement', 'location', 'salary', 'years_of_experience')
-    
+    list_filter = ('is_active', 'depID', 'level', 'work_arrangement', 'location', 'salary', 'years_of_experience')
 
-"""@admin.register(candidate_account)
-class CandidateAccountAdmin(admin.ModelAdmin):
-    fields=('username','password','candID.email')
-    list_display = ('username', 'candID')
-    actions = [register_candidate]"""
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ['applicants_count', 'depID']
+        else:
+            return []
+    
 
 @admin.register(department)
 class DepartmentAdmin(admin.ModelAdmin):
-    fields=('depName',)
-    list_display=('depName','number_of_applied')
+    fields=('depName','jobs_count')
+    list_display=('depName','number_of_applied','jobs_count')
     
     def number_of_applied(self, obj):
         count = job.objects.filter(depName=obj.depName).count()  # Count jobs with matching department name
@@ -136,11 +147,11 @@ class CustomCandForm(forms.ModelForm):
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):
-    fields = ('cv','fname', 'lname','address','military_status','phone','dob', 'age','cand_status','email','title','jobID','username','password','Note','To_Candidate')
-    list_display = ('email','fname', 'lname','title','cv','cand_status')  #to display column 
+    fields = ('cv','fname', 'lname','address','military_status','phone','dob', 'age','cand_status','email','jobID','depID','username','password','Note','To_Candidate')
+    list_display = ('email','fname', 'lname','jobID','cv','cand_status')  #to display column 
     list_editable = ('cand_status',)
     list_display_links=('email',)
-    list_filter=('cand_status','title')
+    list_filter=('cand_status','jobID','depID')
     search_fields=('fname','lname','email','dob')
     actions = [register_candidate]
 
@@ -152,7 +163,7 @@ class candAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return ['fname', 'lname', 'address', 'phone', 'dob', 'email', 'jobID', 'age', 'military_status', 'cv', 'title']
+            return ['fname', 'lname', 'address', 'phone', 'dob', 'email', 'jobID', 'depID', 'age', 'military_status', 'cv', 'title']
         else:
             return []
         
