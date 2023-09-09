@@ -57,11 +57,7 @@ class candidate(models.Model):
     age = models.IntegerField(default=0) 
     Note = models.TextField(null=True, blank=True) 
     To_Candidate = models.TextField(null=True, blank=True)
-    
-    """def title():
-        ID= candidate.jobID
-        JOB=job.objects.get(jobID=ID)
-        """
+    auto_resume = models.FileField(upload_to='resumes/%Y-%m-%d/', null=True, blank=True)
     
     class Meta:
         db_table = 'candidate'
@@ -163,9 +159,7 @@ class resume(models.Model):
     AddNote=models.TextField()
     pdf_file=models.URLField()
     ExtraCurricular=models.TextField(default='none')
-    
-    """def __str__(self):
-        return self.full_name"""
+
     
     class Meta:
         db_table = 'resume'

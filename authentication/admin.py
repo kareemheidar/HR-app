@@ -147,7 +147,7 @@ class CustomCandForm(forms.ModelForm):
 
 @admin.register(candidate)
 class candAdmin(admin.ModelAdmin):
-    fields = ('cv','fname', 'lname','address','military_status','phone','dob', 'age','cand_status','email','jobID','depID','username','password','Note','To_Candidate')
+    fields = ('cv','auto_resume','fname', 'lname','address','military_status','phone','dob', 'age','cand_status','email','jobID','depID','username','password','Note','To_Candidate')
     list_display = ('email','fname', 'lname','jobID','cv','cand_status')  #to display column 
     list_editable = ('cand_status',)
     list_display_links=('email',)
@@ -163,7 +163,7 @@ class candAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return ['fname', 'lname', 'address', 'phone', 'dob', 'email', 'jobID', 'depID', 'age', 'military_status', 'cv', 'title']
+            return ['fname', 'lname', 'address', 'phone', 'dob', 'email', 'jobID', 'depID', 'age', 'military_status', 'cv', 'title', 'auto_resume']
         else:
             return []
         
