@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from .models import candidate_account, candidate, job, department, background_images , CV
-from .forms import candidate_account,CVForm
+from .models import candidate_account, candidate, job, department, background_images , resume
+from .forms import candidate_account
 from django.contrib import messages
 from django.db.models import QuerySet
 import json
@@ -16,10 +16,11 @@ import os
 import csv
 from django.http import FileResponse
 import io
-from reportlab.pdfgen import canvas 
-from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
-
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -112,9 +113,6 @@ def jobs(request):
     }
     return render(request, 'jobs.html', context)
 
-
-
-
 def application(request):
     # get all jobs that are active
     jobs = job.objects.filter(is_active=True)
@@ -151,48 +149,10 @@ def signin(request):
         background_image = background_images.objects.first().login
         if user is not None:
             login(request, user)
-            cand = candidate.objects.get(email=user.email)
-            fname = cand.fname
-            lname = cand.lname
-            email = cand.email
-            address = cand.address
-            military_status = cand.military_status
-            phone = cand.phone
-            dob = cand.dob
-            age = cand.age
-            cv = cand.cv
-
-            status = cand.cand_status
-            message = cand.To_Candidate
-            job_id = cand.jobID_id
-            jobx = job.objects.get(jobID=job_id)
-
             context = {
-                'background_image': background_images.objects.first().account,
-                'status': status,
-                'message': message,
-                'fname': fname,
-                'lname': lname,
-                'email': email,
-                'address': address,
-                'military_status': military_status,
-                'phone': phone,
-                'dob': dob,
-                'age': age,
-                'cv': cv,
-                'jobID': jobx.jobID,
-                'title': jobx.title,
-                'description': jobx.description,
-                'category': jobx.depID.depName,
-                'applicants_count': jobx.applicants_count,
-                'years_of_experience': jobx.years_of_experience,
-                'work_arrangement': jobx.work_arrangement,
-                'location': jobx.location,
-                'salary': jobx.salary,
-                'date_posted': jobx.date_posted.strftime('%Y-%m-%d'),
-                'level': jobx.level,
+                'background_image': background_images.objects.first().homepage,
             }
-            return render(request, 'status.html', context)
+            return redirect('home') 
             
         else:
             # Check if username or password is invalid
@@ -212,7 +172,7 @@ def signout(request):
     context = {
         'background_image': background_image
     }
-    return render(request, 'Homepage.html', context)
+    return redirect('home') 
 
 def addCand(request):
     if(request.method == 'POST'):
@@ -223,7 +183,6 @@ def addCand(request):
         candAcc.save()
         return render(request, 'Homepage.html')
     
-
 def age_calculator(dob):
     today = datetime.today()
     dob = datetime.strptime(dob, '%Y-%m-%d')
@@ -240,19 +199,56 @@ def apply(request):
         vdob = request.POST['dob']
         vcv = request.FILES.get('cv')
         vjobid = request.POST['jobID']
+        vuniversity = request.POST.get('University')
+        vexperience = request.POST.get('Education')
+        vsskills = request.POST.get('Sskill')
+        vtskills = request.POST.get('Tskill')
+        vwork_experience = request.POST.get('Work_experience')
+        vlinkedin = request.POST.get('Acc')
+        vmajor = request.POST.get('Major')
+        vextracurricular = request.POST.get('Extracurricular')
         vjob = job.objects.get( jobID = vjobid)
+        vdep = department.objects.get(depID = vjob.depID_id)
         vage = age_calculator(vdob)
         vtitle=vjob.title
         vjob.applicants_count = vjob.applicants_count + 1
         vjob.save()
-        cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
-        cand.save()
+        data = {
+            'First Name': vfname,
+            'Last Name': vlname,
+            'Address': vaddress,
+            'Email': vemail,
+            'Military Status': vmilitary_status,
+            'Phone': vphone,
+            'Date of Birth': vdob,
+            'Age': vage,
+            'University': vuniversity,
+            'Experience': vexperience,
+            'Soft Skills': vsskills,
+            'Tech Skills': vtskills,
+            'Major': vmajor,
+            'Work Experience': vwork_experience,
+            'Extracurricular Activities': vextracurricular,
+            'LinkedIn': vlinkedin,
+        }
+
+        # Save data to the 'resume' model
+        pdf_filename = create_pdf(data)
+        res = resume(pdf_file=pdf_filename,University=vuniversity, Major=vmajor, Education=vexperience, LinkedIn=vlinkedin, Work_Experience=vwork_experience, SoftSkill=vsskills, TechSkill=vtskills, ExtraCurricular=vextracurricular)
+        res.save()
+
+        if vcv is None:
+            cand = candidate(cv=pdf_filename, fname=vfname, lname=vlname, jobID=vjob, depID=vdep, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
+            cand.save()
+        else:
+            cand = candidate(cv=vcv, fname=vfname, lname=vlname, jobID=vjob, depID=vdep, phone=vphone, address=vaddress, dob=vdob, military_status=vmilitary_status, email=vemail, age=vage,title=vtitle)
+            cand.save()
+
     background_image = background_images.objects.first().thank_you
     context = {
         'background_image': background_image
     }
     return render(request, 'thankyou.html', context)
-
 
 def get_job_by_id(request, job_id):
     print('get_job_by_id')
@@ -267,44 +263,140 @@ def get_job_by_id(request, job_id):
 
 
 def CG(request): #TUTORIAL
-    return render(request, 'CG.html')
+    background_image = background_images.objects.first().homepage
+    context = {
+        'background_image': background_image
+    }
+    return render(request, 'CG.html', context)
+
+@login_required
+def Viewstatus(request): 
+    # get the current user
+    user = request.user
+    # get the candidate object of the current user
+    cand = candidate.objects.get(email=user.email)
+    # get the job object of the candidate
+    jobx = job.objects.get(jobID=cand.jobID_id)
+    status = cand.cand_status
+    message = cand.To_Candidate
+    fname = cand.fname
+    lname = cand.lname
+    email = cand.email
+    address = cand.address
+    military_status = cand.military_status
+    phone = cand.phone
+    dob = cand.dob
+    age = cand.age
+    cv = cand.cv
+
+    context = {
+        'background_image': background_images.objects.first().account,
+        'status': status,
+        'message': message,
+        'fname': fname,
+        'lname': lname,
+        'email': email,
+        'address': address,
+        'military_status': military_status,
+        'phone': phone,
+        'dob': dob,
+        'age': age,
+        'cv': cv,
+        'jobID': jobx.jobID,
+        'title': jobx.title,
+        'description': jobx.description,
+        'category': jobx.depID.depName,
+        'applicants_count': jobx.applicants_count,
+        'years_of_experience': jobx.years_of_experience,
+        'work_arrangement': jobx.work_arrangement,
+        'location': jobx.location,
+        'salary': jobx.salary,
+        'date_posted': jobx.date_posted.strftime('%Y-%m-%d'),
+        'level': jobx.level,
+    }
+    return render(request,'status.html', context)
 
 
-def Viewstatus(request): #TUTORIAL
-    return render(request,'status.html')
+def create_pdf(data):
+    pdf_filename = f'{data["First Name"]}_resume.pdf'
+    pdf_file_path = os.path.join(settings.MEDIA_ROOT, 'resumes', pdf_filename)
 
+    doc = SimpleDocTemplate(pdf_file_path, pagesize=letter)
+    styles = getSampleStyleSheet()
+    story = []
+    custom_style = ParagraphStyle(name='CustomNormal', parent=styles['Normal'], fontSize=14)
+    story.append(Paragraph('Resume Details', styles['Title']))
+    story.append(Spacer(1, 12))
+
+    for field, value in data.items():
+        story.append(Paragraph(f'<b>{field}:</b> {value}', custom_style))
+        story.append(Spacer(1, 10))
+
+    doc.build(story)
+
+    return pdf_file_path
 
 def CV_pdf(request):
-    buf = io.BytesIO()
-    c= canvas.Canvas(buf,pagesize=letter,bottomup=0)
-    textob = c.beginText()
-    textob.setTextOrigin(inch,inch)
-    textob.setFont("Helvetica",14)
+    if request.method == 'POST':
+        vuniversity = request.POST.get('University')
+        vexperience = request.POST.get('Education')
+        vsskills = request.POST.get('Sskill')
+        vtskills = request.POST.get('Tskill')
+        vwork_experience = request.POST.get('Work_experience')
+        vlinkedin = request.POST.get('Acc')
+        vmajor = request.POST.get('Major')
+        vextracurricular = request.POST.get('Extracurricular')
 
-    CVs=CV.objects.all()
+        data = {
+            'University': vuniversity,
+            'Experience': vexperience,
+            'Soft Skills': vsskills,
+            'Tech Skills': vtskills,
+            'Major': vmajor,
+            'Work Experience': vwork_experience,
+            'Extracurricular Activities': vextracurricular,
+            'LinkedIn': vlinkedin,
+        }
+
+        # Save data to the 'resume' model
+        pdf_filename = create_pdf(data)
+        res = resume(pdf_file=pdf_filename,University=vuniversity, Major=vmajor, Education=vexperience, LinkedIn=vlinkedin, Work_Experience=vwork_experience, SoftSkill=vsskills, TechSkill=vtskills, ExtraCurricular=vextracurricular)
+        res.save()
+        messages.success(request, 'Resume submitted successfully.')
+        return render(request, 'thankyou.html')  # Replace with your success page URL
+    return render(request, 'CG.html')  # Replace with your template name
+
+# def CV_pdf(request):
+#     buf = io.BytesIO()
+#     c= canvas.Canvas(buf,pagesize=letter,bottomup=0)
+#     textob = c.beginText()
+#     textob.setTextOrigin(inch,inch)
+#     textob.setFont("Helvetica",14)
+
+#     CVs=CV.objects.all()
     
-    lines=[]
+#     lines=[]
     
-    for CV in CVs:
-        lines.append(CV.University)
-        lines.append(CV.Major)
-        lines.append(CV.Education)
-        lines.append(CV.LinkedIn)
-        lines.append(CV.Work_Experience)
-        lines.append(CV.SoftSkill)
-        lines.append(CV.TechSkill)
-        lines.append(CV.AddNote)
+#     for CV in CVs:
+#         lines.append(CV.University)
+#         lines.append(CV.Major)
+#         lines.append(CV.Education)
+#         lines.append(CV.LinkedIn)
+#         lines.append(CV.Work_Experience)
+#         lines.append(CV.SoftSkill)
+#         lines.append(CV.TechSkill)
+#         lines.append(CV.AddNote)
                 
     
-    for CV in CVs:
-        textob.textLine(line)
+#     for CV in CVs:
+#         textob.textLine(line)
         
-    c.drawText(textob)
-    c.showPage()
-    c.save()
-    buf.seek(0)
+#     c.drawText(textob)
+#     c.showPage()
+#     c.save()
+#     buf.seek(0)
     
-    return FileResponse(buf , as_attachment=True,filename='cv.pdf')
+#     return FileResponse(buf , as_attachment=True,filename='cv.pdf')
         
         
 
@@ -389,33 +481,6 @@ def CV_pdf(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # def register_candidate(modeladmin, request,queryset):
 #     for candidate in queryset:
 #         if candidate.username is not None and candidate.password is not None:
@@ -446,9 +511,6 @@ def CV_pdf(request):
     return render(request,'status.html',context)"""
     
     
-
-
-
 # def apply(request):
 #     if request.method == "POST":
 #         print('first if')

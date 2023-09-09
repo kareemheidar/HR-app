@@ -26,6 +26,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-4fn89uo=8nkequ_*sfw4395w!@xr0nu4ach-l=-xttlk@v*1jh'
 
+# SESSIONS
+SESSION_COOKIE_AGE = 1800 # 30 minutes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+LOGIN_URL = 'http://127.0.0.1:8000/login'
+
 # settings.py
 DEBUG = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

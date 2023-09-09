@@ -39,7 +39,7 @@ class candidate(models.Model):
     gender = models.CharField(
         max_length=6,
         choices=GENDER_CHOICES,
-        default='male'
+        default='none'
     )
 
     cv = models.FileField(upload_to='cvs/%Y-%m-%d/')
@@ -50,6 +50,7 @@ class candidate(models.Model):
     address = models.CharField(max_length=255)
     email = models.EmailField()
     jobID = models.ForeignKey('job', on_delete=models.CASCADE)
+    depID = models.ForeignKey('department', on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, default='none')
     username = models.CharField(max_length=30, null=True, blank=True)
     password = models.CharField(max_length=30, null=True, blank=True) 
@@ -80,6 +81,9 @@ class human_resources(models.Model):
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
 
+    def __str__(self):
+        return self.username
+
     class Meta:
         db_table = 'human_resources'
 
@@ -87,21 +91,12 @@ class human_resources(models.Model):
 class department(models.Model):
     depID = models.AutoField(primary_key=True)
     depName = models.CharField(max_length=30)
-
+    jobs_count = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return self.depName
     class Meta:
         db_table = 'department'
 
-
-# class job(models.Model):
-#     jobID = models.AutoField(primary_key=True)
-#     title = models.CharField(max_length=60)
-#     description = models.TextField()
-#     depID = models.ForeignKey('department', on_delete=models.CASCADE)
-#     HR_code = models.ForeignKey('human_resources', on_delete=models.CASCADE)
-#     applicants_count = models.IntegerField(default=0)
-    
-#     class Meta:
-#         db_table = 'job'
 
 class job(models.Model):
     LEVEL_CHOICES = [
@@ -136,6 +131,9 @@ class job(models.Model):
     date_posted = models.DateTimeField(default=datetime.now, blank=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         db_table = 'job'
 
@@ -154,7 +152,7 @@ class background_images(models.Model):
         db_table = 'background_images'
         
 
-class CV(models.Model):
+class resume(models.Model):
     University= models.TextField()
     Major= models.TextField()
     Education =models.TextField()
@@ -164,12 +162,13 @@ class CV(models.Model):
     TechSkill=models.TextField()
     AddNote=models.TextField()
     pdf_file=models.URLField()
+    ExtraCurricular=models.TextField(default='none')
     
-    def __str__(self):
-        return self.full_name
+    """def __str__(self):
+        return self.full_name"""
     
     class Meta:
-        db_table = 'CVGen'
+        db_table = 'resume'
     
     
     
