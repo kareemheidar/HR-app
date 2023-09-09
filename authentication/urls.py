@@ -11,5 +11,12 @@ urlpatterns = [
     path('application', views.application, name='application'),
     path('apply', views.apply, name='apply'),
     path('get_job/<int:job_id>/', views.get_job_by_id, name='get_job_by_id'),
-    #path('get_status', views.get_status, name='get_status')
+    path('aboutus', views.aboutus, name='aboutus'),
+    #path('get_status', views.get_status, name='get_status'),
+    path('forget', views.forgetpassword, name='forget'),
+    path('temp', views.temp, name='temp'),
+    #path('CV_Generator',views.CV_Generator,name='CV_Generator'),
+    path('Viewstatus',views.Viewstatus,name='Viewstatus'),
+    #path('CGT',views.CG,name='CGT') #TUTORIAL,
+    # path('venue_pdf', views.venue_pdf,name='venue_pdf')
 ]

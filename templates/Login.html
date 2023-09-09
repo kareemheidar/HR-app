@@ -38,9 +38,17 @@
 						
 						<button type="submit" class="btn btn-primary theme-button mt-4">Log in</button>
 						<div class="new-signup">
-							<a href="#reload" class="signuplink">Forgot username or password?</a>
+							<a href="/forget" class="signuplink">Forgot username or password?</a>
 						</div>
 					</form>
+					<!-- show the messages that are sent from the backend -->
+					{% if messages %}
+					<div class="messages">
+						{% for message in messages %}
+						<div class="message {{ message.tags }}">{{ message }}</div>
+						{% endfor %}
+					</div>
+					{% endif %}					
 				</div>
 			</div>
 		</div>

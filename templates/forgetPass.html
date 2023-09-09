@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <title>Login Form</title>
+
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="StyleSheet" type="text/css" href="{% static 'Login.css' %}">
+    <!-- Style -->
+    <!--link rel="stylesheet" href="css/style.css" type="text/css" media="all" /-->
+</head>
+
+<body>
+    <!-- login form -->
+    <section class="madkour">
+        <image type="logo" src="{% static 'logo1.png' %}"></image>
+    </section>
+    <section class="w3l-login">
+        <div class="overlay">
+            <div class="wrapper">
+                <div class="logo">
+                </div>
+                <div class="form-section">
+
+                    <h3>Forget Password</h3>
+                    <h6>Welcome to Madkour Group</h6>
+
+                    <form form action="/forget" method="post" class="signin-form" id="forget-password-form">
+                        {% csrf_token %}
+                        <div class="form-input">
+                            <input type="email" id="email" name="email" placeholder="E-mail" required="" autofocus>
+                        </div>
+                        <button type="submit" class="btn btn-primary theme-button mt-4">Send Email</button>
+                    </form>
+                </div>
+                <div id="snackbar">Password reset email has been sent!</div>
+
+            </div>
+        </div>
+        <div id='stars'></div>
+        <div id='stars2'></div>
+        <div id='stars3'></div>
+
+
+    </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the form element
+            var form = document.getElementById("forget-password-form");
+
+            // Add a submit event listener
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent the form from submitting immediately
+
+                // Simulate delay before showing the snackbar
+                setTimeout(function () {
+                    // Display the snackbar with the message
+                    var snackbar = document.getElementById("snackbar");
+                    snackbar.className = "show";
+
+                    // Redirect after 3 seconds (adjust as needed)
+                    setTimeout(function () {
+                        window.location.href = "/login";
+                    }, 8000);
+                }, 1000); // Delay before showing snackbar (adjust as needed)
+
+                // Submit the form after a short delay (optional)
+                setTimeout(function () {
+                    form.submit();
+                }, 1000); // Short delay before submitting (optional, adjust as needed)
+            });
+        });
+    </script>
+
+    <!-- /login form -->
+</body>
+
+</html>

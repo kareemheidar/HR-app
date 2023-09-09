@@ -1,0 +1,162 @@
+{% load static%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Openings</title>
+    <link rel="stylesheet" href="{% static 'CG.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+
+<body style="background-image: url('{{ background_image }}');">
+    <div class="app-container">
+        <div id="form">
+            {%csrf_token%}
+            <div class="container">
+                <div class="title">
+                    <h1>CV Form</h1>
+                </div>
+                <div class="elform">
+                    <form action="/CV_pdf" method="POST" id="application-form" enctype="multipart/form-data">
+                        {%csrf_token%}
+
+                        <input type="hidden" name="jobID" id="jobID">
+                        <div class="form-group">
+                            <label for="University">University:</label>
+                            <div class="twin-inputs">
+                                <input class="twin-inputs-first" type="text" id="Uni" name="Uni"
+                                    placeholder="University" required>
+                            </div>
+                            <label id="label_major"  for="Major">Major:</label> 
+                            <div class="twin-inputs">   
+                                <input class="twin-inputs-first" type="text" id="Major" name="Major" placeholder="Major" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            
+                            <label for="Education">Education:</label>
+                            <input type="text" id="Education" name="Education" placeholder="your highest degree" required oninput="validateEmail()">
+                        </div> 
+
+                        <div class="form-group">
+                            <label for="Work_experience">Experience:</label>
+                            <textarea id="Work_experience" name="Work_experience" placeholder="Tell us about your Work experience" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Acc">LinkedIn Account:</label>
+                            <input type="text" id="Acc" name="Acc" placeholder="Paste your linkedIn Account LINK" required >
+                          </div>
+
+                        <div class="form-group">
+                            <label for="Sskill">Soft Skills:</label>
+                            <input type="text" id="Sskill" name="Sskill" placeholder="Time management , communication , Team work " required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Tskill">Technical Skills:</label>
+                            <input type="text" id="Tskill" name="Tskill" required>
+                        </div>
+
+                        <!--div class="form-group">
+                            <label for="cv">Additional Notes:</label>
+                            <input type="text" id="cv" name="cv">
+                        </div-->
+
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var jobOpenings = JSON.parse('{{ job_data_json|escapejs }}');
+        console.log("jobOpenings");
+        console.log(jobOpenings);
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('id');
+        var inputElement = document.getElementById("jobID");
+        inputElement.value = jobId;
+        showData(jobId);
+
+
+        function showData(id) {
+            const JobId = parseInt(id);
+            var jobdiv = document.getElementById('jobdiv');
+            var job = jobOpenings.find(job => job.id === JobId);
+
+            var jobCard = `
+            <div class="job-card-header">
+                <img src="{% static 'logo1.png' %}" alt="job image" />
+                <h1>${job.title}</h1>
+                <p>${job.category}</p>
+                <hr />
+            </div>
+            <div class="job-card-body">
+                <h3>Job Description</h3>
+                <p>${job.description}</p>
+                <hr />
+            </div>
+
+            <div class="block2">
+                <p><i class="far fa-calendar-alt" style="margin-right: 5px;"></i> ${job.date_posted}</p>
+                <p><i class="fa fa-money-bills" style="margin-right: 5px;"></i> ${job.salary}</p>
+                <p><i class="fa-solid fa-earth-americas" style="margin-right: 5px;"></i> ${job.location}<span style="font-weight: 800; font-size: 18px;"> · </span> ${job.work_arrangement}</p>
+            </div>
+            `;
+            jobdiv.innerHTML += jobCard;
+        }
+
+        const radioSquares = document.querySelectorAll('.radio-square');
+
+        radioSquares.forEach(square => {
+            square.addEventListener('click', () => {
+                const radioButton = square.querySelector('input[type="radio"]');
+                radioButton.checked = true;
+            });
+        });
+    </script>
+     <script>
+        function validateEmail() {
+                var emailInput = document.getElementById("email");
+                var email = emailInput.value;
+                var domain = email.split("@")[1];
+                var validDomains = ["gmail.com", "yahoo.com", "hotmail.com"]; // Add your desired valid domains here
+    
+                if (!validDomains.includes(domain)) {
+                    emailInput.setCustomValidity("Please enter a valid email address with a supported domain.");
+                } else {
+                    emailInput.setCustomValidity(""); // Reset validation message
+                }}
+    
+     </script>
+     
+     <script>
+        const ageInput = document.getElementById("age");
+        const submitButton = document.querySelector("input[type='submit']");
+        submitButton.addEventListener("click", (event) => {
+          event.preventDefault();
+          const age = parseInt(ageInput.value);
+          if (isNaN(age)) {
+            alert("Please enter a valid age.");
+            return;
+          }
+          if (age < 18) {
+            alert("You must be at least 18 years old to use this website.");
+            return;
+          }
+          // The user is old enough to use the website.
+        });
+      </script>
+
+</body>
+
+</html>

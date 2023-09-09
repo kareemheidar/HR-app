@@ -31,26 +31,12 @@
             {% endif %}
         </ul>
     </nav>
-    <div class="content">
-        {% if user.is_authenticated %}
-        <h1 style="font-weight: 500;">Welcome {{ fname }}</h1>
-        {% else %}
-        <p> your way to excellence - Madkour Group</p>
-        <h1 style="font-weight: 500;">Madkour Group</h1>
-        <a href="/jobs">
-            <button class="Jobs" type="button" style="cursor: pointer;">Explore Jobs</button>
+    <div class="thanks" style="background-image: url('{% static 'backPic.jpg' %}');">
+        <h2>Thank you for your interest in joining Madkour Group</h2>
+        <h3>We will contact you soon</h3>
+        <a href="/">
+            <button class="Jobs" type="button" style="cursor: pointer; margin-top: 70px;">Back to Homepage</button>
         </a>
-        <a href="https://madkour.com.eg/">
-            <button class="Jobs" type="button" style="cursor: pointer;">About Us</button>
-        </a>
-        {% endif %}
     </div>
 </body>
-
-<!--script type="text/javascript">
-    document.getElementById("login-btn").onclick = function () {
-        location.href = "Login.html";
-    };
-</script-->
-
 </html>
