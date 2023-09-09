@@ -26,7 +26,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-4fn89uo=8nkequ_*sfw4395w!@xr0nu4ach-l=-xttlk@v*1jh'
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['*']
 
 # SESSIONS
 SESSION_COOKIE_AGE = 1800 # 30 minutes
@@ -92,14 +92,11 @@ WSGI_APPLICATION = 'gfg.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'madbase',
-        'USER': 'root',
-        'PASSWORD': 'DB@Madkour@123',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
