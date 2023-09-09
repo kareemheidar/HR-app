@@ -10,10 +10,9 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
-from gfg.wsgi import authentication
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gfg.settings')
 
-application = authentication()
+application = get_wsgi_application()
 
 app = application
